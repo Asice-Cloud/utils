@@ -1,8 +1,3 @@
-/**
- * Note: only support x86_64 with -O0 flag, and if you find any bug, please let
- * me know.
- */
-
 #ifndef __TINY_CO_H__
 #define __TINY_CO_H__
 
@@ -20,7 +15,12 @@ typedef enum {
 struct Co;
 
 typedef int (*CoTask)(struct Co *co, void *data);
-
+// 因为 co_next 调用之后，它的栈帧并不会被清零，只是逻辑上不再使用而已。
+// 因此如果下一次调用依然是 co_next，则栈帧的数据依然时沿用上次的。
+// 所以产生了局部变量被“保存”的效果。
+// 稍作修改，就破坏了栈帧，证明局部变量并不能被稳定保存。
+// 最安全的做法是利用协程结构体存放要在不同状态共享的数据.
+// Note:这么一来就变成了，堆上的变量在协程中变为了栈上变量
 typedef struct Co {
   _CoState state;
   CoTask func;
@@ -34,7 +34,8 @@ typedef struct Co {
 #define CO_BEGIN(co)                                                           \
   switch ((co)->label) {                                                       \
   case 0:
-
+// 局部变量保存在栈帧里，如果我们可以通过计算栈帧的大小和位置，将其暂存，\
+// 等重新运行的时候再取出恢复，就可以获得局部变量了
 #define CO_YIELD(co, value)                                                    \
   do {                                                                         \
     (co)->label = __LINE__;                                                    \
