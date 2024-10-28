@@ -29,6 +29,7 @@ struct coroutine_t {
   char *name;
 };
 
+// initial the context before we switch context
 static coroutine_t main_co = {
     .stack = 0, .entry = nullptr, .arg = nullptr, .context = nullptr};
 
