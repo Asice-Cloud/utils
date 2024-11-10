@@ -59,7 +59,7 @@ int main()
         {
             std::this_thread::sleep_for(std::chrono::seconds(3));
             std::unique_lock<std::mutex> lock(mutex);
-            cv.wait(lock, [&]{ return !queue.empty() || done; });
+            cv.wait(lock, [&]()->bool{ return !queue.empty() || done; });
 
             while (!queue.empty())
             {
