@@ -32,7 +32,7 @@ void func2() {
   if (ul2.try_lock_for(std::chrono::seconds(5))) { // just wait for 5s
     common += 1;
   }
-  ul2.unlock();
+  // ul2.unlock();
 }
 
 int main() {
