@@ -108,7 +108,15 @@ void testThreadSafety() {
 }
 } // namespace safe
 
+template<class T>
+void print_all(T t){
+  std::cout<<typeid(decltype(t)).name()<<'\n';
+}
+
 int main() {
+  int aaa=100;
+  print_all(&aaa);
+
   normal::normal_testHashMap();
   std::cout << '\n';
   safe::testThreadSafety();
