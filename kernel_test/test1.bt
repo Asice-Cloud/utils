@@ -1,0 +1,10 @@
+#ifndef BPFTRACE_HAVE_BTF
+#include <linux/sched.h>
+#endif
+
+BEGIN { printf("Tracing open syscalls... Hit Ctrl-C to end.\n"); }
+
+tracepoint : syscalls : sys_enter_open,
+                        tracepoint : syscalls : sys_enter_openat {
+  printf("%-6d %-16s %s\n", pid, comm, str(args.filename));
+}

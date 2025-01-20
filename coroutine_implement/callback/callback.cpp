@@ -1,14 +1,12 @@
 #include <fstream>
 #include <functional>
-#include <iostream>
 #include <future>
+#include <iostream>
 
 using CallBack = std::function<void(const std::string &)>;
 
-void async_read(const std::string &filename, CallBack cb)
-{
-  std::async(std::launch::async, [filename, cb]()
-             {
+void async_read(const std::string &filename, CallBack cb) {
+  std::async(std::launch::async, [filename, cb]() {
     std::ifstream file(filename);
     if (!file.is_open()) {
       cb("error: unable to open");
@@ -19,14 +17,13 @@ void async_read(const std::string &filename, CallBack cb)
                         std::istreambuf_iterator<char>());
     file.close();
 
-    cb(content); });
+    cb(content);
+  });
 }
 
 void async_write(const std::string &filename, const std::string &content,
-                 CallBack cb)
-{
-  std::async(std::launch::async, [filename, content, cb]()
-             {
+                 CallBack cb) {
+  std::async(std::launch::async, [filename, content, cb]() {
     std::ofstream file(filename);
     if (!file.is_open()) {
       cb("Error: unable to open file");
@@ -35,18 +32,18 @@ void async_write(const std::string &filename, const std::string &content,
 
     file << content;
     file.close();
-    cb("Write successful"); });
+    cb("Write successful");
+  });
 }
 
-int main()
-{
-  async_read("callback.cpp", [](const std::string &content)
-             {
+int main() {
+  async_read("callback.cpp", [](const std::string &content) {
     std::cout << "Read successful\n";
-    std::cout << content << std::endl; });
+    std::cout << content << std::endl;
+  });
 
-  async_write("callback.txt", "Hello, callback", [](const std::string &msg)
-              { std::cout << msg << std::endl; });
+  async_write("callback.txt", "Hello, callback",
+              [](const std::string &msg) { std::cout << msg << std::endl; });
 
   std::this_thread::sleep_for(std::chrono::seconds(1));
   return 0;
