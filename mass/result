@@ -1,0 +1,997 @@
+
+te1.out:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+0000000000001000 <_init>:
+    1000:	f3 0f 1e fa          	endbr64
+    1004:	48 83 ec 08          	sub    $0x8,%rsp
+    1008:	48 8b 05 e1 2f 00 00 	mov    0x2fe1(%rip),%rax        # 3ff0 <__gmon_start__@Base>
+    100f:	48 85 c0             	test   %rax,%rax
+    1012:	74 02                	je     1016 <_init+0x16>
+    1014:	ff d0                	call   *%rax
+    1016:	48 83 c4 08          	add    $0x8,%rsp
+    101a:	c3                   	ret
+
+Disassembly of section .plt:
+
+0000000000001020 <.plt>:
+    1020:	ff 35 5a 2f 00 00    	push   0x2f5a(%rip)        # 3f80 <_GLOBAL_OFFSET_TABLE_+0x8>
+    1026:	ff 25 5c 2f 00 00    	jmp    *0x2f5c(%rip)        # 3f88 <_GLOBAL_OFFSET_TABLE_+0x10>
+    102c:	0f 1f 40 00          	nopl   0x0(%rax)
+    1030:	f3 0f 1e fa          	endbr64
+    1034:	68 00 00 00 00       	push   $0x0
+    1039:	e9 e2 ff ff ff       	jmp    1020 <_init+0x20>
+    103e:	66 90                	xchg   %ax,%ax
+    1040:	f3 0f 1e fa          	endbr64
+    1044:	68 01 00 00 00       	push   $0x1
+    1049:	e9 d2 ff ff ff       	jmp    1020 <_init+0x20>
+    104e:	66 90                	xchg   %ax,%ax
+    1050:	f3 0f 1e fa          	endbr64
+    1054:	68 02 00 00 00       	push   $0x2
+    1059:	e9 c2 ff ff ff       	jmp    1020 <_init+0x20>
+    105e:	66 90                	xchg   %ax,%ax
+    1060:	f3 0f 1e fa          	endbr64
+    1064:	68 03 00 00 00       	push   $0x3
+    1069:	e9 b2 ff ff ff       	jmp    1020 <_init+0x20>
+    106e:	66 90                	xchg   %ax,%ax
+    1070:	f3 0f 1e fa          	endbr64
+    1074:	68 04 00 00 00       	push   $0x4
+    1079:	e9 a2 ff ff ff       	jmp    1020 <_init+0x20>
+    107e:	66 90                	xchg   %ax,%ax
+    1080:	f3 0f 1e fa          	endbr64
+    1084:	68 05 00 00 00       	push   $0x5
+    1089:	e9 92 ff ff ff       	jmp    1020 <_init+0x20>
+    108e:	66 90                	xchg   %ax,%ax
+    1090:	f3 0f 1e fa          	endbr64
+    1094:	68 06 00 00 00       	push   $0x6
+    1099:	e9 82 ff ff ff       	jmp    1020 <_init+0x20>
+    109e:	66 90                	xchg   %ax,%ax
+    10a0:	f3 0f 1e fa          	endbr64
+    10a4:	68 07 00 00 00       	push   $0x7
+    10a9:	e9 72 ff ff ff       	jmp    1020 <_init+0x20>
+    10ae:	66 90                	xchg   %ax,%ax
+    10b0:	f3 0f 1e fa          	endbr64
+    10b4:	68 08 00 00 00       	push   $0x8
+    10b9:	e9 62 ff ff ff       	jmp    1020 <_init+0x20>
+    10be:	66 90                	xchg   %ax,%ax
+
+Disassembly of section .plt.got:
+
+00000000000010c0 <__cxa_finalize@plt>:
+    10c0:	f3 0f 1e fa          	endbr64
+    10c4:	ff 25 0e 2f 00 00    	jmp    *0x2f0e(%rip)        # 3fd8 <__cxa_finalize@GLIBC_2.2.5>
+    10ca:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+Disassembly of section .plt.sec:
+
+00000000000010d0 <_ZSt9terminatev@plt>:
+    10d0:	f3 0f 1e fa          	endbr64
+    10d4:	ff 25 b6 2e 00 00    	jmp    *0x2eb6(%rip)        # 3f90 <_ZSt9terminatev@GLIBCXX_3.4>
+    10da:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+00000000000010e0 <_ZNSt6thread6_StateD2Ev@plt>:
+    10e0:	f3 0f 1e fa          	endbr64
+    10e4:	ff 25 ae 2e 00 00    	jmp    *0x2eae(%rip)        # 3f98 <_ZNSt6thread6_StateD2Ev@GLIBCXX_3.4.22>
+    10ea:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+00000000000010f0 <_ZNSt6thread15_M_start_threadESt10unique_ptrINS_6_StateESt14default_deleteIS1_EEPFvvE@plt>:
+    10f0:	f3 0f 1e fa          	endbr64
+    10f4:	ff 25 a6 2e 00 00    	jmp    *0x2ea6(%rip)        # 3fa0 <_ZNSt6thread15_M_start_threadESt10unique_ptrINS_6_StateESt14default_deleteIS1_EEPFvvE@GLIBCXX_3.4.22>
+    10fa:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000001100 <_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@plt>:
+    1100:	f3 0f 1e fa          	endbr64
+    1104:	ff 25 9e 2e 00 00    	jmp    *0x2e9e(%rip)        # 3fa8 <_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@GLIBCXX_3.4>
+    110a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000001110 <_Znwm@plt>:
+    1110:	f3 0f 1e fa          	endbr64
+    1114:	ff 25 96 2e 00 00    	jmp    *0x2e96(%rip)        # 3fb0 <_Znwm@GLIBCXX_3.4>
+    111a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000001120 <_ZdlPvm@plt>:
+    1120:	f3 0f 1e fa          	endbr64
+    1124:	ff 25 8e 2e 00 00    	jmp    *0x2e8e(%rip)        # 3fb8 <_ZdlPvm@CXXABI_1.3.9>
+    112a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000001130 <__stack_chk_fail@plt>:
+    1130:	f3 0f 1e fa          	endbr64
+    1134:	ff 25 86 2e 00 00    	jmp    *0x2e86(%rip)        # 3fc0 <__stack_chk_fail@GLIBC_2.4>
+    113a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000001140 <_ZNSt6thread4joinEv@plt>:
+    1140:	f3 0f 1e fa          	endbr64
+    1144:	ff 25 7e 2e 00 00    	jmp    *0x2e7e(%rip)        # 3fc8 <_ZNSt6thread4joinEv@GLIBCXX_3.4.11>
+    114a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+0000000000001150 <_Unwind_Resume@plt>:
+    1150:	f3 0f 1e fa          	endbr64
+    1154:	ff 25 76 2e 00 00    	jmp    *0x2e76(%rip)        # 3fd0 <_Unwind_Resume@GCC_3.0>
+    115a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+
+Disassembly of section .text:
+
+0000000000001160 <_start>:
+    1160:	f3 0f 1e fa          	endbr64
+    1164:	31 ed                	xor    %ebp,%ebp
+    1166:	49 89 d1             	mov    %rdx,%r9
+    1169:	5e                   	pop    %rsi
+    116a:	48 89 e2             	mov    %rsp,%rdx
+    116d:	48 83 e4 f0          	and    $0xfffffffffffffff0,%rsp
+    1171:	50                   	push   %rax
+    1172:	54                   	push   %rsp
+    1173:	45 31 c0             	xor    %r8d,%r8d
+    1176:	31 c9                	xor    %ecx,%ecx
+    1178:	48 8d 3d f3 00 00 00 	lea    0xf3(%rip),%rdi        # 1272 <main>
+    117f:	ff 15 5b 2e 00 00    	call   *0x2e5b(%rip)        # 3fe0 <__libc_start_main@GLIBC_2.34>
+    1185:	f4                   	hlt
+    1186:	66 2e 0f 1f 84 00 00 	cs nopw 0x0(%rax,%rax,1)
+    118d:	00 00 00 
+
+0000000000001190 <deregister_tm_clones>:
+    1190:	48 8d 3d 81 2e 00 00 	lea    0x2e81(%rip),%rdi        # 4018 <__TMC_END__>
+    1197:	48 8d 05 7a 2e 00 00 	lea    0x2e7a(%rip),%rax        # 4018 <__TMC_END__>
+    119e:	48 39 f8             	cmp    %rdi,%rax
+    11a1:	74 15                	je     11b8 <deregister_tm_clones+0x28>
+    11a3:	48 8b 05 3e 2e 00 00 	mov    0x2e3e(%rip),%rax        # 3fe8 <_ITM_deregisterTMCloneTable@Base>
+    11aa:	48 85 c0             	test   %rax,%rax
+    11ad:	74 09                	je     11b8 <deregister_tm_clones+0x28>
+    11af:	ff e0                	jmp    *%rax
+    11b1:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+    11b8:	c3                   	ret
+    11b9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+00000000000011c0 <register_tm_clones>:
+    11c0:	48 8d 3d 51 2e 00 00 	lea    0x2e51(%rip),%rdi        # 4018 <__TMC_END__>
+    11c7:	48 8d 35 4a 2e 00 00 	lea    0x2e4a(%rip),%rsi        # 4018 <__TMC_END__>
+    11ce:	48 29 fe             	sub    %rdi,%rsi
+    11d1:	48 89 f0             	mov    %rsi,%rax
+    11d4:	48 c1 ee 3f          	shr    $0x3f,%rsi
+    11d8:	48 c1 f8 03          	sar    $0x3,%rax
+    11dc:	48 01 c6             	add    %rax,%rsi
+    11df:	48 d1 fe             	sar    $1,%rsi
+    11e2:	74 14                	je     11f8 <register_tm_clones+0x38>
+    11e4:	48 8b 05 0d 2e 00 00 	mov    0x2e0d(%rip),%rax        # 3ff8 <_ITM_registerTMCloneTable@Base>
+    11eb:	48 85 c0             	test   %rax,%rax
+    11ee:	74 08                	je     11f8 <register_tm_clones+0x38>
+    11f0:	ff e0                	jmp    *%rax
+    11f2:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+    11f8:	c3                   	ret
+    11f9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+0000000000001200 <__do_global_dtors_aux>:
+    1200:	f3 0f 1e fa          	endbr64
+    1204:	80 3d 45 2f 00 00 00 	cmpb   $0x0,0x2f45(%rip)        # 4150 <completed.0>
+    120b:	75 2b                	jne    1238 <__do_global_dtors_aux+0x38>
+    120d:	55                   	push   %rbp
+    120e:	48 83 3d c2 2d 00 00 	cmpq   $0x0,0x2dc2(%rip)        # 3fd8 <__cxa_finalize@GLIBC_2.2.5>
+    1215:	00 
+    1216:	48 89 e5             	mov    %rsp,%rbp
+    1219:	74 0c                	je     1227 <__do_global_dtors_aux+0x27>
+    121b:	48 8b 3d e6 2d 00 00 	mov    0x2de6(%rip),%rdi        # 4008 <__dso_handle>
+    1222:	e8 99 fe ff ff       	call   10c0 <__cxa_finalize@plt>
+    1227:	e8 64 ff ff ff       	call   1190 <deregister_tm_clones>
+    122c:	c6 05 1d 2f 00 00 01 	movb   $0x1,0x2f1d(%rip)        # 4150 <completed.0>
+    1233:	5d                   	pop    %rbp
+    1234:	c3                   	ret
+    1235:	0f 1f 00             	nopl   (%rax)
+    1238:	c3                   	ret
+    1239:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+0000000000001240 <frame_dummy>:
+    1240:	f3 0f 1e fa          	endbr64
+    1244:	e9 77 ff ff ff       	jmp    11c0 <register_tm_clones>
+    1249:	90                   	nop
+
+000000000000124a <_ZZ4mainENKUlvE_clEv>:
+    124a:	55                   	push   %rbp
+    124b:	48 89 e5             	mov    %rsp,%rbp
+    124e:	48 83 ec 10          	sub    $0x10,%rsp
+    1252:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1256:	48 8d 05 c3 0d 00 00 	lea    0xdc3(%rip),%rax        # 2020 <_IO_stdin_used+0x20>
+    125d:	48 89 c6             	mov    %rax,%rsi
+    1260:	48 8d 05 d9 2d 00 00 	lea    0x2dd9(%rip),%rax        # 4040 <_ZSt4cout@GLIBCXX_3.4>
+    1267:	48 89 c7             	mov    %rax,%rdi
+    126a:	e8 91 fe ff ff       	call   1100 <_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc@plt>
+    126f:	90                   	nop
+    1270:	c9                   	leave
+    1271:	c3                   	ret
+
+0000000000001272 <main>:
+    1272:	f3 0f 1e fa          	endbr64
+    1276:	55                   	push   %rbp
+    1277:	48 89 e5             	mov    %rsp,%rbp
+    127a:	53                   	push   %rbx
+    127b:	48 83 ec 28          	sub    $0x28,%rsp
+    127f:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+    1286:	00 00 
+    1288:	48 89 45 e8          	mov    %rax,-0x18(%rbp)
+    128c:	31 c0                	xor    %eax,%eax
+    128e:	48 8d 55 df          	lea    -0x21(%rbp),%rdx
+    1292:	48 8d 45 e0          	lea    -0x20(%rbp),%rax
+    1296:	48 89 d6             	mov    %rdx,%rsi
+    1299:	48 89 c7             	mov    %rax,%rdi
+    129c:	e8 6b 00 00 00       	call   130c <_ZNSt6threadC1IZ4mainEUlvE_JEvEEOT_DpOT0_>
+    12a1:	48 8d 45 e0          	lea    -0x20(%rbp),%rax
+    12a5:	48 89 c7             	mov    %rax,%rdi
+    12a8:	e8 93 fe ff ff       	call   1140 <_ZNSt6thread4joinEv@plt>
+    12ad:	48 8d 45 e0          	lea    -0x20(%rbp),%rax
+    12b1:	48 89 c7             	mov    %rax,%rdi
+    12b4:	e8 35 04 00 00       	call   16ee <_ZNSt6threadD1Ev>
+    12b9:	b8 00 00 00 00       	mov    $0x0,%eax
+    12be:	48 8b 55 e8          	mov    -0x18(%rbp),%rdx
+    12c2:	64 48 2b 14 25 28 00 	sub    %fs:0x28,%rdx
+    12c9:	00 00 
+    12cb:	74 39                	je     1306 <main+0x94>
+    12cd:	eb 32                	jmp    1301 <main+0x8f>
+    12cf:	f3 0f 1e fa          	endbr64
+    12d3:	48 89 c3             	mov    %rax,%rbx
+    12d6:	48 8d 45 e0          	lea    -0x20(%rbp),%rax
+    12da:	48 89 c7             	mov    %rax,%rdi
+    12dd:	e8 0c 04 00 00       	call   16ee <_ZNSt6threadD1Ev>
+    12e2:	48 89 d8             	mov    %rbx,%rax
+    12e5:	48 8b 55 e8          	mov    -0x18(%rbp),%rdx
+    12e9:	64 48 2b 14 25 28 00 	sub    %fs:0x28,%rdx
+    12f0:	00 00 
+    12f2:	74 05                	je     12f9 <main+0x87>
+    12f4:	e8 37 fe ff ff       	call   1130 <__stack_chk_fail@plt>
+    12f9:	48 89 c7             	mov    %rax,%rdi
+    12fc:	e8 4f fe ff ff       	call   1150 <_Unwind_Resume@plt>
+    1301:	e8 2a fe ff ff       	call   1130 <__stack_chk_fail@plt>
+    1306:	48 8b 5d f8          	mov    -0x8(%rbp),%rbx
+    130a:	c9                   	leave
+    130b:	c3                   	ret
+
+000000000000130c <_ZNSt6threadC1IZ4mainEUlvE_JEvEEOT_DpOT0_>:
+    130c:	55                   	push   %rbp
+    130d:	48 89 e5             	mov    %rsp,%rbp
+    1310:	41 55                	push   %r13
+    1312:	41 54                	push   %r12
+    1314:	53                   	push   %rbx
+    1315:	48 83 ec 28          	sub    $0x28,%rsp
+    1319:	48 89 7d c8          	mov    %rdi,-0x38(%rbp)
+    131d:	48 89 75 c0          	mov    %rsi,-0x40(%rbp)
+    1321:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+    1328:	00 00 
+    132a:	48 89 45 d8          	mov    %rax,-0x28(%rbp)
+    132e:	31 c0                	xor    %eax,%eax
+    1330:	48 8b 45 c8          	mov    -0x38(%rbp),%rax
+    1334:	48 89 c7             	mov    %rax,%rdi
+    1337:	e8 8c 03 00 00       	call   16c8 <_ZNSt6thread2idC1Ev>
+    133c:	bf 10 00 00 00       	mov    $0x10,%edi
+    1341:	e8 ca fd ff ff       	call   1110 <_Znwm@plt>
+    1346:	48 89 c3             	mov    %rax,%rbx
+    1349:	41 bd 01 00 00 00    	mov    $0x1,%r13d
+    134f:	48 8b 45 c0          	mov    -0x40(%rbp),%rax
+    1353:	48 89 c7             	mov    %rax,%rdi
+    1356:	e8 b5 00 00 00       	call   1410 <_ZSt7forwardIZ4mainEUlvE_EOT_RNSt16remove_referenceIS1_E4typeE>
+    135b:	48 89 c6             	mov    %rax,%rsi
+    135e:	48 89 df             	mov    %rbx,%rdi
+    1361:	e8 b8 00 00 00       	call   141e <_ZNSt6thread11_State_implINS_8_InvokerISt5tupleIJZ4mainEUlvE_EEEEEC1IJS3_EEEDpOT_>
+    1366:	41 bd 00 00 00 00    	mov    $0x0,%r13d
+    136c:	48 8d 45 d0          	lea    -0x30(%rbp),%rax
+    1370:	48 89 de             	mov    %rbx,%rsi
+    1373:	48 89 c7             	mov    %rax,%rdi
+    1376:	e8 5d 04 00 00       	call   17d8 <_ZNSt10unique_ptrINSt6thread6_StateESt14default_deleteIS1_EEC1IS3_vEEPS1_>
+    137b:	48 8d 4d d0          	lea    -0x30(%rbp),%rcx
+    137f:	48 8b 45 c8          	mov    -0x38(%rbp),%rax
+    1383:	48 8d 15 58 03 00 00 	lea    0x358(%rip),%rdx        # 16e2 <_ZNSt6thread24_M_thread_deps_never_runEv>
+    138a:	48 89 ce             	mov    %rcx,%rsi
+    138d:	48 89 c7             	mov    %rax,%rdi
+    1390:	e8 5b fd ff ff       	call   10f0 <_ZNSt6thread15_M_start_threadESt10unique_ptrINS_6_StateESt14default_deleteIS1_EEPFvvE@plt>
+    1395:	48 8d 45 d0          	lea    -0x30(%rbp),%rax
+    1399:	48 89 c7             	mov    %rax,%rdi
+    139c:	e8 61 04 00 00       	call   1802 <_ZNSt10unique_ptrINSt6thread6_StateESt14default_deleteIS1_EED1Ev>
+    13a1:	90                   	nop
+    13a2:	48 8b 45 d8          	mov    -0x28(%rbp),%rax
+    13a6:	64 48 2b 04 25 28 00 	sub    %fs:0x28,%rax
+    13ad:	00 00 
+    13af:	74 54                	je     1405 <_ZNSt6threadC1IZ4mainEUlvE_JEvEEOT_DpOT0_+0xf9>
+    13b1:	eb 4d                	jmp    1400 <_ZNSt6threadC1IZ4mainEUlvE_JEvEEOT_DpOT0_+0xf4>
+    13b3:	f3 0f 1e fa          	endbr64
+    13b7:	49 89 c4             	mov    %rax,%r12
+    13ba:	48 8d 45 d0          	lea    -0x30(%rbp),%rax
+    13be:	48 89 c7             	mov    %rax,%rdi
+    13c1:	e8 3c 04 00 00       	call   1802 <_ZNSt10unique_ptrINSt6thread6_StateESt14default_deleteIS1_EED1Ev>
+    13c6:	eb 07                	jmp    13cf <_ZNSt6threadC1IZ4mainEUlvE_JEvEEOT_DpOT0_+0xc3>
+    13c8:	f3 0f 1e fa          	endbr64
+    13cc:	49 89 c4             	mov    %rax,%r12
+    13cf:	45 84 ed             	test   %r13b,%r13b
+    13d2:	74 0d                	je     13e1 <_ZNSt6threadC1IZ4mainEUlvE_JEvEEOT_DpOT0_+0xd5>
+    13d4:	be 10 00 00 00       	mov    $0x10,%esi
+    13d9:	48 89 df             	mov    %rbx,%rdi
+    13dc:	e8 3f fd ff ff       	call   1120 <_ZdlPvm@plt>
+    13e1:	4c 89 e0             	mov    %r12,%rax
+    13e4:	48 8b 55 d8          	mov    -0x28(%rbp),%rdx
+    13e8:	64 48 2b 14 25 28 00 	sub    %fs:0x28,%rdx
+    13ef:	00 00 
+    13f1:	74 05                	je     13f8 <_ZNSt6threadC1IZ4mainEUlvE_JEvEEOT_DpOT0_+0xec>
+    13f3:	e8 38 fd ff ff       	call   1130 <__stack_chk_fail@plt>
+    13f8:	48 89 c7             	mov    %rax,%rdi
+    13fb:	e8 50 fd ff ff       	call   1150 <_Unwind_Resume@plt>
+    1400:	e8 2b fd ff ff       	call   1130 <__stack_chk_fail@plt>
+    1405:	48 83 c4 28          	add    $0x28,%rsp
+    1409:	5b                   	pop    %rbx
+    140a:	41 5c                	pop    %r12
+    140c:	41 5d                	pop    %r13
+    140e:	5d                   	pop    %rbp
+    140f:	c3                   	ret
+
+0000000000001410 <_ZSt7forwardIZ4mainEUlvE_EOT_RNSt16remove_referenceIS1_E4typeE>:
+    1410:	55                   	push   %rbp
+    1411:	48 89 e5             	mov    %rsp,%rbp
+    1414:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1418:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    141c:	5d                   	pop    %rbp
+    141d:	c3                   	ret
+
+000000000000141e <_ZNSt6thread11_State_implINS_8_InvokerISt5tupleIJZ4mainEUlvE_EEEEEC1IJS3_EEEDpOT_>:
+    141e:	55                   	push   %rbp
+    141f:	48 89 e5             	mov    %rsp,%rbp
+    1422:	53                   	push   %rbx
+    1423:	48 83 ec 18          	sub    $0x18,%rsp
+    1427:	48 89 7d e8          	mov    %rdi,-0x18(%rbp)
+    142b:	48 89 75 e0          	mov    %rsi,-0x20(%rbp)
+    142f:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
+    1433:	48 89 c7             	mov    %rax,%rdi
+    1436:	e8 55 03 00 00       	call   1790 <_ZNSt6thread6_StateC1Ev>
+    143b:	48 8d 15 ce 28 00 00 	lea    0x28ce(%rip),%rdx        # 3d10 <_ZTVNSt6thread11_State_implINS_8_InvokerISt5tupleIJZ4mainEUlvE_EEEEEE+0x10>
+    1442:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
+    1446:	48 89 10             	mov    %rdx,(%rax)
+    1449:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
+    144d:	48 8d 58 08          	lea    0x8(%rax),%rbx
+    1451:	48 8b 45 e0          	mov    -0x20(%rbp),%rax
+    1455:	48 89 c7             	mov    %rax,%rdi
+    1458:	e8 b3 ff ff ff       	call   1410 <_ZSt7forwardIZ4mainEUlvE_EOT_RNSt16remove_referenceIS1_E4typeE>
+    145d:	48 89 c6             	mov    %rax,%rsi
+    1460:	48 89 df             	mov    %rbx,%rdi
+    1463:	e8 26 00 00 00       	call   148e <_ZNSt6thread8_InvokerISt5tupleIJZ4mainEUlvE_EEEC1IJS2_EEEDpOT_>
+    1468:	eb 1e                	jmp    1488 <_ZNSt6thread11_State_implINS_8_InvokerISt5tupleIJZ4mainEUlvE_EEEEEC1IJS3_EEEDpOT_+0x6a>
+    146a:	f3 0f 1e fa          	endbr64
+    146e:	48 89 c3             	mov    %rax,%rbx
+    1471:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
+    1475:	48 89 c7             	mov    %rax,%rdi
+    1478:	e8 63 fc ff ff       	call   10e0 <_ZNSt6thread6_StateD2Ev@plt>
+    147d:	48 89 d8             	mov    %rbx,%rax
+    1480:	48 89 c7             	mov    %rax,%rdi
+    1483:	e8 c8 fc ff ff       	call   1150 <_Unwind_Resume@plt>
+    1488:	48 8b 5d f8          	mov    -0x8(%rbp),%rbx
+    148c:	c9                   	leave
+    148d:	c3                   	ret
+
+000000000000148e <_ZNSt6thread8_InvokerISt5tupleIJZ4mainEUlvE_EEEC1IJS2_EEEDpOT_>:
+    148e:	55                   	push   %rbp
+    148f:	48 89 e5             	mov    %rsp,%rbp
+    1492:	53                   	push   %rbx
+    1493:	48 83 ec 18          	sub    $0x18,%rsp
+    1497:	48 89 7d e8          	mov    %rdi,-0x18(%rbp)
+    149b:	48 89 75 e0          	mov    %rsi,-0x20(%rbp)
+    149f:	48 8b 5d e8          	mov    -0x18(%rbp),%rbx
+    14a3:	48 8b 45 e0          	mov    -0x20(%rbp),%rax
+    14a7:	48 89 c7             	mov    %rax,%rdi
+    14aa:	e8 61 ff ff ff       	call   1410 <_ZSt7forwardIZ4mainEUlvE_EOT_RNSt16remove_referenceIS1_E4typeE>
+    14af:	48 89 c6             	mov    %rax,%rsi
+    14b2:	48 89 df             	mov    %rbx,%rdi
+    14b5:	e8 08 00 00 00       	call   14c2 <_ZNSt5tupleIJZ4mainEUlvE_EEC1IJS0_ELb1ELb1EEEDpOT_>
+    14ba:	90                   	nop
+    14bb:	48 8b 5d f8          	mov    -0x8(%rbp),%rbx
+    14bf:	c9                   	leave
+    14c0:	c3                   	ret
+    14c1:	90                   	nop
+
+00000000000014c2 <_ZNSt5tupleIJZ4mainEUlvE_EEC1IJS0_ELb1ELb1EEEDpOT_>:
+    14c2:	55                   	push   %rbp
+    14c3:	48 89 e5             	mov    %rsp,%rbp
+    14c6:	48 83 ec 10          	sub    $0x10,%rsp
+    14ca:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    14ce:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+    14d2:	48 8b 45 f0          	mov    -0x10(%rbp),%rax
+    14d6:	48 89 c7             	mov    %rax,%rdi
+    14d9:	e8 32 ff ff ff       	call   1410 <_ZSt7forwardIZ4mainEUlvE_EOT_RNSt16remove_referenceIS1_E4typeE>
+    14de:	48 89 c2             	mov    %rax,%rdx
+    14e1:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    14e5:	48 89 d6             	mov    %rdx,%rsi
+    14e8:	48 89 c7             	mov    %rax,%rdi
+    14eb:	e8 04 00 00 00       	call   14f4 <_ZNSt11_Tuple_implILm0EJZ4mainEUlvE_EEC2IS0_EEOT_>
+    14f0:	90                   	nop
+    14f1:	c9                   	leave
+    14f2:	c3                   	ret
+    14f3:	90                   	nop
+
+00000000000014f4 <_ZNSt11_Tuple_implILm0EJZ4mainEUlvE_EEC2IS0_EEOT_>:
+    14f4:	55                   	push   %rbp
+    14f5:	48 89 e5             	mov    %rsp,%rbp
+    14f8:	48 83 ec 10          	sub    $0x10,%rsp
+    14fc:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1500:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+    1504:	48 8b 45 f0          	mov    -0x10(%rbp),%rax
+    1508:	48 89 c7             	mov    %rax,%rdi
+    150b:	e8 00 ff ff ff       	call   1410 <_ZSt7forwardIZ4mainEUlvE_EOT_RNSt16remove_referenceIS1_E4typeE>
+    1510:	48 89 c2             	mov    %rax,%rdx
+    1513:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1517:	48 89 d6             	mov    %rdx,%rsi
+    151a:	48 89 c7             	mov    %rax,%rdi
+    151d:	e8 04 00 00 00       	call   1526 <_ZNSt10_Head_baseILm0EZ4mainEUlvE_Lb1EEC2IS0_EEOT_>
+    1522:	90                   	nop
+    1523:	c9                   	leave
+    1524:	c3                   	ret
+    1525:	90                   	nop
+
+0000000000001526 <_ZNSt10_Head_baseILm0EZ4mainEUlvE_Lb1EEC2IS0_EEOT_>:
+    1526:	55                   	push   %rbp
+    1527:	48 89 e5             	mov    %rsp,%rbp
+    152a:	48 83 ec 10          	sub    $0x10,%rsp
+    152e:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1532:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+    1536:	48 8b 45 f0          	mov    -0x10(%rbp),%rax
+    153a:	48 89 c7             	mov    %rax,%rdi
+    153d:	e8 ce fe ff ff       	call   1410 <_ZSt7forwardIZ4mainEUlvE_EOT_RNSt16remove_referenceIS1_E4typeE>
+    1542:	90                   	nop
+    1543:	c9                   	leave
+    1544:	c3                   	ret
+    1545:	90                   	nop
+
+0000000000001546 <_ZNSt6thread11_State_implINS_8_InvokerISt5tupleIJZ4mainEUlvE_EEEEED1Ev>:
+    1546:	f3 0f 1e fa          	endbr64
+    154a:	55                   	push   %rbp
+    154b:	48 89 e5             	mov    %rsp,%rbp
+    154e:	48 83 ec 10          	sub    $0x10,%rsp
+    1552:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1556:	48 8d 15 b3 27 00 00 	lea    0x27b3(%rip),%rdx        # 3d10 <_ZTVNSt6thread11_State_implINS_8_InvokerISt5tupleIJZ4mainEUlvE_EEEEEE+0x10>
+    155d:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1561:	48 89 10             	mov    %rdx,(%rax)
+    1564:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1568:	48 89 c7             	mov    %rax,%rdi
+    156b:	e8 70 fb ff ff       	call   10e0 <_ZNSt6thread6_StateD2Ev@plt>
+    1570:	90                   	nop
+    1571:	c9                   	leave
+    1572:	c3                   	ret
+    1573:	90                   	nop
+
+0000000000001574 <_ZNSt6thread11_State_implINS_8_InvokerISt5tupleIJZ4mainEUlvE_EEEEED0Ev>:
+    1574:	f3 0f 1e fa          	endbr64
+    1578:	55                   	push   %rbp
+    1579:	48 89 e5             	mov    %rsp,%rbp
+    157c:	48 83 ec 10          	sub    $0x10,%rsp
+    1580:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1584:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1588:	48 89 c7             	mov    %rax,%rdi
+    158b:	e8 b6 ff ff ff       	call   1546 <_ZNSt6thread11_State_implINS_8_InvokerISt5tupleIJZ4mainEUlvE_EEEEED1Ev>
+    1590:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1594:	be 10 00 00 00       	mov    $0x10,%esi
+    1599:	48 89 c7             	mov    %rax,%rdi
+    159c:	e8 7f fb ff ff       	call   1120 <_ZdlPvm@plt>
+    15a1:	c9                   	leave
+    15a2:	c3                   	ret
+    15a3:	90                   	nop
+
+00000000000015a4 <_ZNSt6thread11_State_implINS_8_InvokerISt5tupleIJZ4mainEUlvE_EEEEE6_M_runEv>:
+    15a4:	f3 0f 1e fa          	endbr64
+    15a8:	55                   	push   %rbp
+    15a9:	48 89 e5             	mov    %rsp,%rbp
+    15ac:	48 83 ec 10          	sub    $0x10,%rsp
+    15b0:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    15b4:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    15b8:	48 83 c0 08          	add    $0x8,%rax
+    15bc:	48 89 c7             	mov    %rax,%rdi
+    15bf:	e8 04 00 00 00       	call   15c8 <_ZNSt6thread8_InvokerISt5tupleIJZ4mainEUlvE_EEEclEv>
+    15c4:	90                   	nop
+    15c5:	c9                   	leave
+    15c6:	c3                   	ret
+    15c7:	90                   	nop
+
+00000000000015c8 <_ZNSt6thread8_InvokerISt5tupleIJZ4mainEUlvE_EEEclEv>:
+    15c8:	55                   	push   %rbp
+    15c9:	48 89 e5             	mov    %rsp,%rbp
+    15cc:	48 83 ec 10          	sub    $0x10,%rsp
+    15d0:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    15d4:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    15d8:	48 89 c7             	mov    %rax,%rdi
+    15db:	e8 04 00 00 00       	call   15e4 <_ZNSt6thread8_InvokerISt5tupleIJZ4mainEUlvE_EEE9_M_invokeIJLm0EEEEvSt12_Index_tupleIJXspT_EEE>
+    15e0:	90                   	nop
+    15e1:	c9                   	leave
+    15e2:	c3                   	ret
+    15e3:	90                   	nop
+
+00000000000015e4 <_ZNSt6thread8_InvokerISt5tupleIJZ4mainEUlvE_EEE9_M_invokeIJLm0EEEEvSt12_Index_tupleIJXspT_EEE>:
+    15e4:	55                   	push   %rbp
+    15e5:	48 89 e5             	mov    %rsp,%rbp
+    15e8:	48 83 ec 10          	sub    $0x10,%rsp
+    15ec:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    15f0:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    15f4:	48 89 c7             	mov    %rax,%rdi
+    15f7:	e8 13 00 00 00       	call   160f <_ZSt4moveIRSt5tupleIJZ4mainEUlvE_EEEONSt16remove_referenceIT_E4typeEOS5_>
+    15fc:	48 89 c7             	mov    %rax,%rdi
+    15ff:	e8 19 00 00 00       	call   161d <_ZSt3getILm0EJZ4mainEUlvE_EEONSt13tuple_elementIXT_ESt5tupleIJDpT0_EEE4typeEOS5_>
+    1604:	48 89 c7             	mov    %rax,%rdi
+    1607:	e8 33 00 00 00       	call   163f <_ZSt8__invokeIZ4mainEUlvE_JEENSt15__invoke_resultIT_JDpT0_EE4typeEOS2_DpOS3_>
+    160c:	90                   	nop
+    160d:	c9                   	leave
+    160e:	c3                   	ret
+
+000000000000160f <_ZSt4moveIRSt5tupleIJZ4mainEUlvE_EEEONSt16remove_referenceIT_E4typeEOS5_>:
+    160f:	55                   	push   %rbp
+    1610:	48 89 e5             	mov    %rsp,%rbp
+    1613:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1617:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    161b:	5d                   	pop    %rbp
+    161c:	c3                   	ret
+
+000000000000161d <_ZSt3getILm0EJZ4mainEUlvE_EEONSt13tuple_elementIXT_ESt5tupleIJDpT0_EEE4typeEOS5_>:
+    161d:	55                   	push   %rbp
+    161e:	48 89 e5             	mov    %rsp,%rbp
+    1621:	48 83 ec 10          	sub    $0x10,%rsp
+    1625:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1629:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    162d:	48 89 c7             	mov    %rax,%rdi
+    1630:	e8 2d 00 00 00       	call   1662 <_ZSt12__get_helperILm0EZ4mainEUlvE_JEERT0_RSt11_Tuple_implIXT_EJS1_DpT1_EE>
+    1635:	48 89 c7             	mov    %rax,%rdi
+    1638:	e8 d3 fd ff ff       	call   1410 <_ZSt7forwardIZ4mainEUlvE_EOT_RNSt16remove_referenceIS1_E4typeE>
+    163d:	c9                   	leave
+    163e:	c3                   	ret
+
+000000000000163f <_ZSt8__invokeIZ4mainEUlvE_JEENSt15__invoke_resultIT_JDpT0_EE4typeEOS2_DpOS3_>:
+    163f:	55                   	push   %rbp
+    1640:	48 89 e5             	mov    %rsp,%rbp
+    1643:	48 83 ec 10          	sub    $0x10,%rsp
+    1647:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    164b:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    164f:	48 89 c7             	mov    %rax,%rdi
+    1652:	e8 b9 fd ff ff       	call   1410 <_ZSt7forwardIZ4mainEUlvE_EOT_RNSt16remove_referenceIS1_E4typeE>
+    1657:	48 89 c7             	mov    %rax,%rdi
+    165a:	e8 1d 00 00 00       	call   167c <_ZSt13__invoke_implIvZ4mainEUlvE_JEET_St14__invoke_otherOT0_DpOT1_>
+    165f:	90                   	nop
+    1660:	c9                   	leave
+    1661:	c3                   	ret
+
+0000000000001662 <_ZSt12__get_helperILm0EZ4mainEUlvE_JEERT0_RSt11_Tuple_implIXT_EJS1_DpT1_EE>:
+    1662:	55                   	push   %rbp
+    1663:	48 89 e5             	mov    %rsp,%rbp
+    1666:	48 83 ec 10          	sub    $0x10,%rsp
+    166a:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    166e:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1672:	48 89 c7             	mov    %rax,%rdi
+    1675:	e8 25 00 00 00       	call   169f <_ZNSt11_Tuple_implILm0EJZ4mainEUlvE_EE7_M_headERS1_>
+    167a:	c9                   	leave
+    167b:	c3                   	ret
+
+000000000000167c <_ZSt13__invoke_implIvZ4mainEUlvE_JEET_St14__invoke_otherOT0_DpOT1_>:
+    167c:	55                   	push   %rbp
+    167d:	48 89 e5             	mov    %rsp,%rbp
+    1680:	48 83 ec 10          	sub    $0x10,%rsp
+    1684:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1688:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    168c:	48 89 c7             	mov    %rax,%rdi
+    168f:	e8 7c fd ff ff       	call   1410 <_ZSt7forwardIZ4mainEUlvE_EOT_RNSt16remove_referenceIS1_E4typeE>
+    1694:	48 89 c7             	mov    %rax,%rdi
+    1697:	e8 ae fb ff ff       	call   124a <_ZZ4mainENKUlvE_clEv>
+    169c:	90                   	nop
+    169d:	c9                   	leave
+    169e:	c3                   	ret
+
+000000000000169f <_ZNSt11_Tuple_implILm0EJZ4mainEUlvE_EE7_M_headERS1_>:
+    169f:	55                   	push   %rbp
+    16a0:	48 89 e5             	mov    %rsp,%rbp
+    16a3:	48 83 ec 10          	sub    $0x10,%rsp
+    16a7:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    16ab:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    16af:	48 89 c7             	mov    %rax,%rdi
+    16b2:	e8 02 00 00 00       	call   16b9 <_ZNSt10_Head_baseILm0EZ4mainEUlvE_Lb1EE7_M_headERS1_>
+    16b7:	c9                   	leave
+    16b8:	c3                   	ret
+
+00000000000016b9 <_ZNSt10_Head_baseILm0EZ4mainEUlvE_Lb1EE7_M_headERS1_>:
+    16b9:	55                   	push   %rbp
+    16ba:	48 89 e5             	mov    %rsp,%rbp
+    16bd:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    16c1:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    16c5:	5d                   	pop    %rbp
+    16c6:	c3                   	ret
+    16c7:	90                   	nop
+
+00000000000016c8 <_ZNSt6thread2idC1Ev>:
+    16c8:	f3 0f 1e fa          	endbr64
+    16cc:	55                   	push   %rbp
+    16cd:	48 89 e5             	mov    %rsp,%rbp
+    16d0:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    16d4:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    16d8:	48 c7 00 00 00 00 00 	movq   $0x0,(%rax)
+    16df:	90                   	nop
+    16e0:	5d                   	pop    %rbp
+    16e1:	c3                   	ret
+
+00000000000016e2 <_ZNSt6thread24_M_thread_deps_never_runEv>:
+    16e2:	f3 0f 1e fa          	endbr64
+    16e6:	55                   	push   %rbp
+    16e7:	48 89 e5             	mov    %rsp,%rbp
+    16ea:	90                   	nop
+    16eb:	5d                   	pop    %rbp
+    16ec:	c3                   	ret
+    16ed:	90                   	nop
+
+00000000000016ee <_ZNSt6threadD1Ev>:
+    16ee:	f3 0f 1e fa          	endbr64
+    16f2:	55                   	push   %rbp
+    16f3:	48 89 e5             	mov    %rsp,%rbp
+    16f6:	48 83 ec 10          	sub    $0x10,%rsp
+    16fa:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    16fe:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1702:	48 89 c7             	mov    %rax,%rdi
+    1705:	e8 0c 00 00 00       	call   1716 <_ZNKSt6thread8joinableEv>
+    170a:	84 c0                	test   %al,%al
+    170c:	74 05                	je     1713 <_ZNSt6threadD1Ev+0x25>
+    170e:	e8 bd f9 ff ff       	call   10d0 <_ZSt9terminatev@plt>
+    1713:	90                   	nop
+    1714:	c9                   	leave
+    1715:	c3                   	ret
+
+0000000000001716 <_ZNKSt6thread8joinableEv>:
+    1716:	f3 0f 1e fa          	endbr64
+    171a:	55                   	push   %rbp
+    171b:	48 89 e5             	mov    %rsp,%rbp
+    171e:	48 83 ec 20          	sub    $0x20,%rsp
+    1722:	48 89 7d e8          	mov    %rdi,-0x18(%rbp)
+    1726:	64 48 8b 04 25 28 00 	mov    %fs:0x28,%rax
+    172d:	00 00 
+    172f:	48 89 45 f8          	mov    %rax,-0x8(%rbp)
+    1733:	31 c0                	xor    %eax,%eax
+    1735:	48 8d 45 f0          	lea    -0x10(%rbp),%rax
+    1739:	48 89 c7             	mov    %rax,%rdi
+    173c:	e8 87 ff ff ff       	call   16c8 <_ZNSt6thread2idC1Ev>
+    1741:	48 8b 55 f0          	mov    -0x10(%rbp),%rdx
+    1745:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
+    1749:	48 8b 00             	mov    (%rax),%rax
+    174c:	48 89 d6             	mov    %rdx,%rsi
+    174f:	48 89 c7             	mov    %rax,%rdi
+    1752:	e8 19 00 00 00       	call   1770 <_ZSteqNSt6thread2idES0_>
+    1757:	83 f0 01             	xor    $0x1,%eax
+    175a:	48 8b 55 f8          	mov    -0x8(%rbp),%rdx
+    175e:	64 48 2b 14 25 28 00 	sub    %fs:0x28,%rdx
+    1765:	00 00 
+    1767:	74 05                	je     176e <_ZNKSt6thread8joinableEv+0x58>
+    1769:	e8 c2 f9 ff ff       	call   1130 <__stack_chk_fail@plt>
+    176e:	c9                   	leave
+    176f:	c3                   	ret
+
+0000000000001770 <_ZSteqNSt6thread2idES0_>:
+    1770:	f3 0f 1e fa          	endbr64
+    1774:	55                   	push   %rbp
+    1775:	48 89 e5             	mov    %rsp,%rbp
+    1778:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    177c:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+    1780:	48 8b 55 f8          	mov    -0x8(%rbp),%rdx
+    1784:	48 8b 45 f0          	mov    -0x10(%rbp),%rax
+    1788:	48 39 c2             	cmp    %rax,%rdx
+    178b:	0f 94 c0             	sete   %al
+    178e:	5d                   	pop    %rbp
+    178f:	c3                   	ret
+
+0000000000001790 <_ZNSt6thread6_StateC1Ev>:
+    1790:	f3 0f 1e fa          	endbr64
+    1794:	55                   	push   %rbp
+    1795:	48 89 e5             	mov    %rsp,%rbp
+    1798:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    179c:	48 8d 15 95 25 00 00 	lea    0x2595(%rip),%rdx        # 3d38 <_ZTVNSt6thread6_StateE@GLIBCXX_3.4.22+0x10>
+    17a3:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    17a7:	48 89 10             	mov    %rdx,(%rax)
+    17aa:	90                   	nop
+    17ab:	5d                   	pop    %rbp
+    17ac:	c3                   	ret
+    17ad:	90                   	nop
+
+00000000000017ae <_ZNSt15__uniq_ptr_dataINSt6thread6_StateESt14default_deleteIS1_ELb1ELb1EECI1St15__uniq_ptr_implIS1_S3_EEPS1_>:
+    17ae:	f3 0f 1e fa          	endbr64
+    17b2:	55                   	push   %rbp
+    17b3:	48 89 e5             	mov    %rsp,%rbp
+    17b6:	48 83 ec 10          	sub    $0x10,%rsp
+    17ba:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    17be:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+    17c2:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    17c6:	48 8b 55 f0          	mov    -0x10(%rbp),%rdx
+    17ca:	48 89 d6             	mov    %rdx,%rsi
+    17cd:	48 89 c7             	mov    %rax,%rdi
+    17d0:	e8 95 00 00 00       	call   186a <_ZNSt15__uniq_ptr_implINSt6thread6_StateESt14default_deleteIS1_EEC1EPS1_>
+    17d5:	90                   	nop
+    17d6:	c9                   	leave
+    17d7:	c3                   	ret
+
+00000000000017d8 <_ZNSt10unique_ptrINSt6thread6_StateESt14default_deleteIS1_EEC1IS3_vEEPS1_>:
+    17d8:	f3 0f 1e fa          	endbr64
+    17dc:	55                   	push   %rbp
+    17dd:	48 89 e5             	mov    %rsp,%rbp
+    17e0:	48 83 ec 10          	sub    $0x10,%rsp
+    17e4:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    17e8:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+    17ec:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    17f0:	48 8b 55 f0          	mov    -0x10(%rbp),%rdx
+    17f4:	48 89 d6             	mov    %rdx,%rsi
+    17f7:	48 89 c7             	mov    %rax,%rdi
+    17fa:	e8 af ff ff ff       	call   17ae <_ZNSt15__uniq_ptr_dataINSt6thread6_StateESt14default_deleteIS1_ELb1ELb1EECI1St15__uniq_ptr_implIS1_S3_EEPS1_>
+    17ff:	90                   	nop
+    1800:	c9                   	leave
+    1801:	c3                   	ret
+
+0000000000001802 <_ZNSt10unique_ptrINSt6thread6_StateESt14default_deleteIS1_EED1Ev>:
+    1802:	f3 0f 1e fa          	endbr64
+    1806:	55                   	push   %rbp
+    1807:	48 89 e5             	mov    %rsp,%rbp
+    180a:	53                   	push   %rbx
+    180b:	48 83 ec 28          	sub    $0x28,%rsp
+    180f:	48 89 7d d8          	mov    %rdi,-0x28(%rbp)
+    1813:	48 8b 45 d8          	mov    -0x28(%rbp),%rax
+    1817:	48 89 c7             	mov    %rax,%rdi
+    181a:	e8 87 00 00 00       	call   18a6 <_ZNSt15__uniq_ptr_implINSt6thread6_StateESt14default_deleteIS1_EE6_M_ptrEv>
+    181f:	48 89 45 e8          	mov    %rax,-0x18(%rbp)
+    1823:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
+    1827:	48 8b 00             	mov    (%rax),%rax
+    182a:	48 85 c0             	test   %rax,%rax
+    182d:	74 29                	je     1858 <_ZNSt10unique_ptrINSt6thread6_StateESt14default_deleteIS1_EED1Ev+0x56>
+    182f:	48 8b 45 d8          	mov    -0x28(%rbp),%rax
+    1833:	48 89 c7             	mov    %rax,%rdi
+    1836:	e8 89 00 00 00       	call   18c4 <_ZNSt10unique_ptrINSt6thread6_StateESt14default_deleteIS1_EE11get_deleterEv>
+    183b:	48 89 c3             	mov    %rax,%rbx
+    183e:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
+    1842:	48 89 c7             	mov    %rax,%rdi
+    1845:	e8 98 00 00 00       	call   18e2 <_ZSt4moveIRPNSt6thread6_StateEEONSt16remove_referenceIT_E4typeEOS5_>
+    184a:	48 8b 00             	mov    (%rax),%rax
+    184d:	48 89 c6             	mov    %rax,%rsi
+    1850:	48 89 df             	mov    %rbx,%rdi
+    1853:	e8 9c 00 00 00       	call   18f4 <_ZNKSt14default_deleteINSt6thread6_StateEEclEPS1_>
+    1858:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
+    185c:	48 c7 00 00 00 00 00 	movq   $0x0,(%rax)
+    1863:	90                   	nop
+    1864:	48 8b 5d f8          	mov    -0x8(%rbp),%rbx
+    1868:	c9                   	leave
+    1869:	c3                   	ret
+
+000000000000186a <_ZNSt15__uniq_ptr_implINSt6thread6_StateESt14default_deleteIS1_EEC1EPS1_>:
+    186a:	f3 0f 1e fa          	endbr64
+    186e:	55                   	push   %rbp
+    186f:	48 89 e5             	mov    %rsp,%rbp
+    1872:	53                   	push   %rbx
+    1873:	48 83 ec 18          	sub    $0x18,%rsp
+    1877:	48 89 7d e8          	mov    %rdi,-0x18(%rbp)
+    187b:	48 89 75 e0          	mov    %rsi,-0x20(%rbp)
+    187f:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
+    1883:	48 89 c7             	mov    %rax,%rdi
+    1886:	e8 99 00 00 00       	call   1924 <_ZNSt5tupleIJPNSt6thread6_StateESt14default_deleteIS1_EEEC1ILb1ELb1EEEv>
+    188b:	48 8b 5d e0          	mov    -0x20(%rbp),%rbx
+    188f:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
+    1893:	48 89 c7             	mov    %rax,%rdi
+    1896:	e8 0b 00 00 00       	call   18a6 <_ZNSt15__uniq_ptr_implINSt6thread6_StateESt14default_deleteIS1_EE6_M_ptrEv>
+    189b:	48 89 18             	mov    %rbx,(%rax)
+    189e:	90                   	nop
+    189f:	48 8b 5d f8          	mov    -0x8(%rbp),%rbx
+    18a3:	c9                   	leave
+    18a4:	c3                   	ret
+    18a5:	90                   	nop
+
+00000000000018a6 <_ZNSt15__uniq_ptr_implINSt6thread6_StateESt14default_deleteIS1_EE6_M_ptrEv>:
+    18a6:	f3 0f 1e fa          	endbr64
+    18aa:	55                   	push   %rbp
+    18ab:	48 89 e5             	mov    %rsp,%rbp
+    18ae:	48 83 ec 10          	sub    $0x10,%rsp
+    18b2:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    18b6:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    18ba:	48 89 c7             	mov    %rax,%rdi
+    18bd:	e8 81 00 00 00       	call   1943 <_ZSt3getILm0EJPNSt6thread6_StateESt14default_deleteIS1_EEERNSt13tuple_elementIXT_ESt5tupleIJDpT0_EEE4typeERS9_>
+    18c2:	c9                   	leave
+    18c3:	c3                   	ret
+
+00000000000018c4 <_ZNSt10unique_ptrINSt6thread6_StateESt14default_deleteIS1_EE11get_deleterEv>:
+    18c4:	f3 0f 1e fa          	endbr64
+    18c8:	55                   	push   %rbp
+    18c9:	48 89 e5             	mov    %rsp,%rbp
+    18cc:	48 83 ec 10          	sub    $0x10,%rsp
+    18d0:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    18d4:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    18d8:	48 89 c7             	mov    %rax,%rdi
+    18db:	e8 82 00 00 00       	call   1962 <_ZNSt15__uniq_ptr_implINSt6thread6_StateESt14default_deleteIS1_EE10_M_deleterEv>
+    18e0:	c9                   	leave
+    18e1:	c3                   	ret
+
+00000000000018e2 <_ZSt4moveIRPNSt6thread6_StateEEONSt16remove_referenceIT_E4typeEOS5_>:
+    18e2:	f3 0f 1e fa          	endbr64
+    18e6:	55                   	push   %rbp
+    18e7:	48 89 e5             	mov    %rsp,%rbp
+    18ea:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    18ee:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    18f2:	5d                   	pop    %rbp
+    18f3:	c3                   	ret
+
+00000000000018f4 <_ZNKSt14default_deleteINSt6thread6_StateEEclEPS1_>:
+    18f4:	f3 0f 1e fa          	endbr64
+    18f8:	55                   	push   %rbp
+    18f9:	48 89 e5             	mov    %rsp,%rbp
+    18fc:	48 83 ec 10          	sub    $0x10,%rsp
+    1900:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1904:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+    1908:	48 8b 45 f0          	mov    -0x10(%rbp),%rax
+    190c:	48 85 c0             	test   %rax,%rax
+    190f:	74 0f                	je     1920 <_ZNKSt14default_deleteINSt6thread6_StateEEclEPS1_+0x2c>
+    1911:	48 8b 10             	mov    (%rax),%rdx
+    1914:	48 83 c2 08          	add    $0x8,%rdx
+    1918:	48 8b 12             	mov    (%rdx),%rdx
+    191b:	48 89 c7             	mov    %rax,%rdi
+    191e:	ff d2                	call   *%rdx
+    1920:	90                   	nop
+    1921:	c9                   	leave
+    1922:	c3                   	ret
+    1923:	90                   	nop
+
+0000000000001924 <_ZNSt5tupleIJPNSt6thread6_StateESt14default_deleteIS1_EEEC1ILb1ELb1EEEv>:
+    1924:	f3 0f 1e fa          	endbr64
+    1928:	55                   	push   %rbp
+    1929:	48 89 e5             	mov    %rsp,%rbp
+    192c:	48 83 ec 10          	sub    $0x10,%rsp
+    1930:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1934:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1938:	48 89 c7             	mov    %rax,%rdi
+    193b:	e8 40 00 00 00       	call   1980 <_ZNSt11_Tuple_implILm0EJPNSt6thread6_StateESt14default_deleteIS1_EEEC1Ev>
+    1940:	90                   	nop
+    1941:	c9                   	leave
+    1942:	c3                   	ret
+
+0000000000001943 <_ZSt3getILm0EJPNSt6thread6_StateESt14default_deleteIS1_EEERNSt13tuple_elementIXT_ESt5tupleIJDpT0_EEE4typeERS9_>:
+    1943:	f3 0f 1e fa          	endbr64
+    1947:	55                   	push   %rbp
+    1948:	48 89 e5             	mov    %rsp,%rbp
+    194b:	48 83 ec 10          	sub    $0x10,%rsp
+    194f:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1953:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1957:	48 89 c7             	mov    %rax,%rdi
+    195a:	e8 4c 00 00 00       	call   19ab <_ZSt12__get_helperILm0EPNSt6thread6_StateEJSt14default_deleteIS1_EEERT0_RSt11_Tuple_implIXT_EJS5_DpT1_EE>
+    195f:	c9                   	leave
+    1960:	c3                   	ret
+    1961:	90                   	nop
+
+0000000000001962 <_ZNSt15__uniq_ptr_implINSt6thread6_StateESt14default_deleteIS1_EE10_M_deleterEv>:
+    1962:	f3 0f 1e fa          	endbr64
+    1966:	55                   	push   %rbp
+    1967:	48 89 e5             	mov    %rsp,%rbp
+    196a:	48 83 ec 10          	sub    $0x10,%rsp
+    196e:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1972:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1976:	48 89 c7             	mov    %rax,%rdi
+    1979:	e8 4b 00 00 00       	call   19c9 <_ZSt3getILm1EJPNSt6thread6_StateESt14default_deleteIS1_EEERNSt13tuple_elementIXT_ESt5tupleIJDpT0_EEE4typeERS9_>
+    197e:	c9                   	leave
+    197f:	c3                   	ret
+
+0000000000001980 <_ZNSt11_Tuple_implILm0EJPNSt6thread6_StateESt14default_deleteIS1_EEEC1Ev>:
+    1980:	f3 0f 1e fa          	endbr64
+    1984:	55                   	push   %rbp
+    1985:	48 89 e5             	mov    %rsp,%rbp
+    1988:	48 83 ec 10          	sub    $0x10,%rsp
+    198c:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1990:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1994:	48 89 c7             	mov    %rax,%rdi
+    1997:	e8 4c 00 00 00       	call   19e8 <_ZNSt11_Tuple_implILm1EJSt14default_deleteINSt6thread6_StateEEEEC1Ev>
+    199c:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    19a0:	48 89 c7             	mov    %rax,%rdi
+    19a3:	e8 60 00 00 00       	call   1a08 <_ZNSt10_Head_baseILm0EPNSt6thread6_StateELb0EEC1Ev>
+    19a8:	90                   	nop
+    19a9:	c9                   	leave
+    19aa:	c3                   	ret
+
+00000000000019ab <_ZSt12__get_helperILm0EPNSt6thread6_StateEJSt14default_deleteIS1_EEERT0_RSt11_Tuple_implIXT_EJS5_DpT1_EE>:
+    19ab:	f3 0f 1e fa          	endbr64
+    19af:	55                   	push   %rbp
+    19b0:	48 89 e5             	mov    %rsp,%rbp
+    19b3:	48 83 ec 10          	sub    $0x10,%rsp
+    19b7:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    19bb:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    19bf:	48 89 c7             	mov    %rax,%rdi
+    19c2:	e8 5b 00 00 00       	call   1a22 <_ZNSt11_Tuple_implILm0EJPNSt6thread6_StateESt14default_deleteIS1_EEE7_M_headERS5_>
+    19c7:	c9                   	leave
+    19c8:	c3                   	ret
+
+00000000000019c9 <_ZSt3getILm1EJPNSt6thread6_StateESt14default_deleteIS1_EEERNSt13tuple_elementIXT_ESt5tupleIJDpT0_EEE4typeERS9_>:
+    19c9:	f3 0f 1e fa          	endbr64
+    19cd:	55                   	push   %rbp
+    19ce:	48 89 e5             	mov    %rsp,%rbp
+    19d1:	48 83 ec 10          	sub    $0x10,%rsp
+    19d5:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    19d9:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    19dd:	48 89 c7             	mov    %rax,%rdi
+    19e0:	e8 5b 00 00 00       	call   1a40 <_ZSt12__get_helperILm1ESt14default_deleteINSt6thread6_StateEEJEERT0_RSt11_Tuple_implIXT_EJS4_DpT1_EE>
+    19e5:	c9                   	leave
+    19e6:	c3                   	ret
+    19e7:	90                   	nop
+
+00000000000019e8 <_ZNSt11_Tuple_implILm1EJSt14default_deleteINSt6thread6_StateEEEEC1Ev>:
+    19e8:	f3 0f 1e fa          	endbr64
+    19ec:	55                   	push   %rbp
+    19ed:	48 89 e5             	mov    %rsp,%rbp
+    19f0:	48 83 ec 10          	sub    $0x10,%rsp
+    19f4:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    19f8:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    19fc:	48 89 c7             	mov    %rax,%rdi
+    19ff:	e8 5a 00 00 00       	call   1a5e <_ZNSt10_Head_baseILm1ESt14default_deleteINSt6thread6_StateEELb1EEC1Ev>
+    1a04:	90                   	nop
+    1a05:	c9                   	leave
+    1a06:	c3                   	ret
+    1a07:	90                   	nop
+
+0000000000001a08 <_ZNSt10_Head_baseILm0EPNSt6thread6_StateELb0EEC1Ev>:
+    1a08:	f3 0f 1e fa          	endbr64
+    1a0c:	55                   	push   %rbp
+    1a0d:	48 89 e5             	mov    %rsp,%rbp
+    1a10:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1a14:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1a18:	48 c7 00 00 00 00 00 	movq   $0x0,(%rax)
+    1a1f:	90                   	nop
+    1a20:	5d                   	pop    %rbp
+    1a21:	c3                   	ret
+
+0000000000001a22 <_ZNSt11_Tuple_implILm0EJPNSt6thread6_StateESt14default_deleteIS1_EEE7_M_headERS5_>:
+    1a22:	f3 0f 1e fa          	endbr64
+    1a26:	55                   	push   %rbp
+    1a27:	48 89 e5             	mov    %rsp,%rbp
+    1a2a:	48 83 ec 10          	sub    $0x10,%rsp
+    1a2e:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1a32:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1a36:	48 89 c7             	mov    %rax,%rdi
+    1a39:	e8 2f 00 00 00       	call   1a6d <_ZNSt10_Head_baseILm0EPNSt6thread6_StateELb0EE7_M_headERS3_>
+    1a3e:	c9                   	leave
+    1a3f:	c3                   	ret
+
+0000000000001a40 <_ZSt12__get_helperILm1ESt14default_deleteINSt6thread6_StateEEJEERT0_RSt11_Tuple_implIXT_EJS4_DpT1_EE>:
+    1a40:	f3 0f 1e fa          	endbr64
+    1a44:	55                   	push   %rbp
+    1a45:	48 89 e5             	mov    %rsp,%rbp
+    1a48:	48 83 ec 10          	sub    $0x10,%rsp
+    1a4c:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1a50:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1a54:	48 89 c7             	mov    %rax,%rdi
+    1a57:	e8 23 00 00 00       	call   1a7f <_ZNSt11_Tuple_implILm1EJSt14default_deleteINSt6thread6_StateEEEE7_M_headERS4_>
+    1a5c:	c9                   	leave
+    1a5d:	c3                   	ret
+
+0000000000001a5e <_ZNSt10_Head_baseILm1ESt14default_deleteINSt6thread6_StateEELb1EEC1Ev>:
+    1a5e:	f3 0f 1e fa          	endbr64
+    1a62:	55                   	push   %rbp
+    1a63:	48 89 e5             	mov    %rsp,%rbp
+    1a66:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1a6a:	90                   	nop
+    1a6b:	5d                   	pop    %rbp
+    1a6c:	c3                   	ret
+
+0000000000001a6d <_ZNSt10_Head_baseILm0EPNSt6thread6_StateELb0EE7_M_headERS3_>:
+    1a6d:	f3 0f 1e fa          	endbr64
+    1a71:	55                   	push   %rbp
+    1a72:	48 89 e5             	mov    %rsp,%rbp
+    1a75:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1a79:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1a7d:	5d                   	pop    %rbp
+    1a7e:	c3                   	ret
+
+0000000000001a7f <_ZNSt11_Tuple_implILm1EJSt14default_deleteINSt6thread6_StateEEEE7_M_headERS4_>:
+    1a7f:	f3 0f 1e fa          	endbr64
+    1a83:	55                   	push   %rbp
+    1a84:	48 89 e5             	mov    %rsp,%rbp
+    1a87:	48 83 ec 10          	sub    $0x10,%rsp
+    1a8b:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1a8f:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1a93:	48 89 c7             	mov    %rax,%rdi
+    1a96:	e8 02 00 00 00       	call   1a9d <_ZNSt10_Head_baseILm1ESt14default_deleteINSt6thread6_StateEELb1EE7_M_headERS4_>
+    1a9b:	c9                   	leave
+    1a9c:	c3                   	ret
+
+0000000000001a9d <_ZNSt10_Head_baseILm1ESt14default_deleteINSt6thread6_StateEELb1EE7_M_headERS4_>:
+    1a9d:	f3 0f 1e fa          	endbr64
+    1aa1:	55                   	push   %rbp
+    1aa2:	48 89 e5             	mov    %rsp,%rbp
+    1aa5:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+    1aa9:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+    1aad:	5d                   	pop    %rbp
+    1aae:	c3                   	ret
+
+Disassembly of section .fini:
+
+0000000000001ab0 <_fini>:
+    1ab0:	f3 0f 1e fa          	endbr64
+    1ab4:	48 83 ec 08          	sub    $0x8,%rsp
+    1ab8:	48 83 c4 08          	add    $0x8,%rsp
+    1abc:	c3                   	ret

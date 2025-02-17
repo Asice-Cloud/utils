@@ -1,22 +1,19 @@
-#include <chrono>
+// #include <chrono>
+#include <functional>
 #include <iostream>
 #include <thread>
+#include <type_traits>
 
-void independentThread() {
-  std::cout << "Starting concurrent thread.\n";
-  std::this_thread::sleep_for(std::chrono::seconds(2));
-  std::cout << "Exiting concurrent thread.\n";
-}
+template <typename F>
+constexpr bool is_function = std::is_invocable_r_v<void,F,int>;
 
-void threadCaller() {
-  std::cout << "Starting thread caller.\n";
-  std::thread t(independentThread);
-  t.detach();
-  std::this_thread::sleep_for(std::chrono::seconds(1));
-  std::cout << "Exiting thread caller.\n";
+template <typename Func, typename... Ts>
+std::enable_if_t<is_function<Func>, void> callback(Func &&f, Ts... ts) {
+  std::forward<Func>(f)(ts...);
 }
 
 int main() {
-  threadCaller();
-  std::this_thread::sleep_for(std::chrono::seconds(5));
+  std::thread t1([] { std::cout << "char" << "1" << '\n'; });
+  callback([](int i) { std::cout << i << '\n'; }, 1);
+  t1.join();
 }

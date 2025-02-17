@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.25)
 set(CMAKE_CXX_STANDARD 23)
-project(async)
+project(pt)
 
-find_package(Boost 1.83 REQUIRED COMPONENTS system)
+find_package(Boost REQUIRED COMPONENTS system)
 
 #add_definitions(-DASIO_HAS_CO_AWAIT)
 add_executable(async11 async11.cpp)
@@ -13,3 +13,6 @@ target_link_libraries(async20 Boost::system)
 find_package(RTTR)
 add_executable(rttr rttrexample.cpp)
 target_link_libraries(rttr RTTR::Core)
+
+add_executable(echo1 echo_server.cpp)
+add_executable(echo2 echo_server20.cpp)
