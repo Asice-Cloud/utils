@@ -16,3 +16,8 @@ target_link_libraries(rttr RTTR::Core)
 
 add_executable(echo1 echo_server.cpp)
 add_executable(echo2 echo_server20.cpp)
+
+find_package(TBB REQUIRED)
+
+add_executable(tbbb tbbtbb.cpp)
+target_link_libraries(tbbb TBB::tbb)
