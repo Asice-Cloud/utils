@@ -49,5 +49,6 @@ int main() {
   for (auto &i : a) {
     std::cout << i << '\n';
   }
+  std::cout << "end";
   return 0;
 }
