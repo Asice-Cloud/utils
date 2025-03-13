@@ -5,3 +5,4 @@ set(CMAKE_CXX_STANDARD 23)
 project(mass)
 
 add_executable(mass1 te1.cpp)
+add_executable(m2 te2.cpp)
