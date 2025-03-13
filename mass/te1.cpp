@@ -14,16 +14,13 @@ template <typename T>
 constexpr bool is_int = std::is_same_v<std::decay_t<T>, int>;
 
 template <typename T, std::enable_if_t<is_int<T>, int> = 0>
-void print_int_param(T)
-{
+void print_int_param(T) {
   std::cout << "int" << '\n';
 }
 
-template <typename F,typename ...Ts>
-concept is_invoked = requires(F f, Ts... ts)
-{
-  std::is_invocable_r_v<void, F, Ts...>;
-};
+template <typename F, typename... Ts>
+concept is_invoked =
+    requires(F f, Ts... ts) { std::is_invocable_r_v<void, F, Ts...>; };
 
 template <typename Func, typename... Ts>
 std::enable_if_t<is_function<Func>, void> callback(Func &&f, Ts... ts) {
@@ -36,6 +33,15 @@ void callback2(F &&f, int i) {
   std::forward<F>(f)(i);
 }
 
+template <typename T0> void print_all(T0 t) { std::cout << t << " "; }
+
+template <typename T, typename... Ts> void print_all(T value, Ts... args) {
+  std::cout << value << " ";
+  if (sizeof...(Ts) > 0) {
+    print_all(args...);
+  };
+}
+
 int main() {
   std::thread t1([] { std::cout << "char" << "1" << '\n'; });
   callback([](int i) { std::cout << i << '\n'; }, 1);
@@ -44,4 +50,6 @@ int main() {
   callback2([](int i) { std::cout << "char" << i << '\n'; }, 1);
 
   print_int_param<int>(1);
+
+  print_all(1, 2, 4, 5, 6, 7);
 }
