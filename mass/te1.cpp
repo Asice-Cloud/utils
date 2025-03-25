@@ -18,6 +18,17 @@ void print_int_param(T) {
   std::cout << "int" << '\n';
 }
 
+template <typename T>
+concept is_double =
+requires(T t){
+    std::is_same_v<std::decay_t<T>,double>;
+};
+
+template <typename T>
+void print_double_param(T t) requires is_double<T>{
+    std::cout<<"is double";
+}
+
 template <typename F, typename... Ts>
 concept is_invoked =
     requires(F f, Ts... ts) { std::is_invocable_r_v<void, F, Ts...>; };
@@ -52,4 +63,6 @@ int main() {
   print_int_param<int>(1);
 
   print_all(1, 2, 4, 5, 6, 7);
+
+  print_double_param(1.2);
 }
