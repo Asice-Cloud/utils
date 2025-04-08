@@ -1,5 +1,7 @@
 #include <iostream>
-#include "router.h"
+#include "router/router.h"
+#include "util/Object.h"
+#include "core/thread_pool.h"
 
 int main() {
 	Router router;
@@ -14,5 +16,32 @@ int main() {
 	std::cout << "Request: " << request2 << " -> Service: " << router.route(request2) << std::endl;
 	std::cout << "Request: " << request3 << " -> Service: " << router.route(request3) << std::endl;
 
+
+	MyClass obj;
+
+	for (const auto& field : obj.getFields()) {
+		std::cout << "Field: " << field.name << " -> Value: " << field.getter(&obj) << std::endl;
+	}
+
+
+	ThreadPool pool(4);
+	std::vector< std::future<int> > results;
+
+	for(int i = 0; i < 8; ++i) {
+		results.emplace_back(
+			pool.en_queue([i] {
+				std::cout << "hello " << i << std::endl;
+				std::this_thread::sleep_for(std::chrono::seconds(1));
+				std::cout << "world " << i << std::endl;
+				return i*i;
+			})
+		);
+	}
+
+	for(auto && result: results)
+		std::cout << result.get() << ' ';
+	std::cout << std::endl;
+
 	return 0;
+
 }
