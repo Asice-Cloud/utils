@@ -10,12 +10,12 @@
 #include <mutex>
 #include <queue>
 
-using Task = std::function<void()>;
+using P_Task = std::function<void()>;
 
 class ThreadPool{
     private:
 	std::vector<std::thread> workers;
-	std::queue<Task> tasks;
+	std::queue<P_Task> tasks;
 	std::mutex mtx;
 	std::condition_variable cv;
 	std::atomic_bool stop;
@@ -45,13 +45,13 @@ inline ThreadPool::ThreadPool(size_t size) :stop(false)
 			{
 				std::function<void()> task;
 				{
-                    std::unique_lock<std::mutex> lock(this->mtx);
-                    this->cv.wait(lock, [this] { return this->stop || !this->tasks.empty(); });
-                    if (this->stop && this->tasks.empty())
-                        return;
-                    task = std::move(this->tasks.front());
-                    this->tasks.pop();
-                }
+					std::unique_lock<std::mutex> lock(this->mtx);
+					this->cv.wait(lock, [this] { return this->stop || !this->tasks.empty(); });
+					if (this->stop && this->tasks.empty())
+						return;
+					task = std::move(this->tasks.front());
+					this->tasks.pop();
+				}
 				task();
 			}
 		});
