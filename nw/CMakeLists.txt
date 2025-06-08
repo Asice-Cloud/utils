@@ -17,8 +17,8 @@ file(GLOB_RECURSE util_headers src/util/*.h)
 
 add_executable(nw src/main.cpp
         ${router_files} ${router_headers}
-    ${core_files} ${core_headers}
-    ${util_files} ${util_headers}
+        ${core_files} ${core_headers}
+        ${util_files} ${util_headers}
 )
 
 #target_include_directories(nw PRIVATE ${CMAKE_SOURCE_DIR}/include)

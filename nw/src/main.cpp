@@ -1,51 +1,47 @@
 #include "core/co.h"
+
 // #include "core/thread_pool.h"
 // #include "router/router.h"
 // #include "util/Object.h"
 //
-Task_World<int> world() {
-	debug, "world";
-	co_yield 11;
-	co_return 41;
-}
 
-Task_World<void> ling()
+Task<void> ling()
 {
 	debug, "00000";
 	co_return ;
 }
 
-Task<std::string> hello_world() {
+Task<std::string> hello_world()
+{
 	debug, "hello world";
 	co_return "hello world";
 }
 
-Task<int> hello() {
-	auto wt = world();
-	int i = co_await wt;
-
-	debug, "result from world: 1:  ", i;
-
-	i = co_await wt;
+Task<int> hello()
+{
 
 	co_await ling();
-	debug, "result from world: 2:  ", i;
 
-	std::string re = co_await hello_world();
-	debug, re, "from hello world";
-	co_return i + 1;
+	debug, "sleep 1";
+	co_await SleepFor(std::chrono::seconds(1));
+	debug, "sleep 2";
+
+	co_return 42;
 }
 
-int main() {
+int main()
+{
 	debug, "hello before";
-	Task t = hello();
+	Task t1 = hello();
+	Task t2 = hello_world();
+	get_sleep_loop().add_task(t1);
+	get_sleep_loop().add_task(t2);
 	debug, "hello after";
 
-	while (!t.m_coroutine.done()) {
-		t.m_coroutine.resume();
-		debug, "result from hello: ", t.m_coroutine.promise().result();
-	}
+	get_sleep_loop().run_all();
 
+	debug, "result t1", t1.m_coroutine.promise().result();
+	debug, "result t2", t2.m_coroutine.promise().result();
 	return 0;
 }
 
