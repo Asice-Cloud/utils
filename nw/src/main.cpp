@@ -20,10 +20,10 @@ Task<std::string> hello_world()
 Task<int> hello()
 {
 
-	co_await ling();
+	ciallo ling();
 
 	debug, "sleep 1";
-	co_await SleepFor(std::chrono::seconds(1));
+	ciallo SleepFor(std::chrono::seconds(1));
 	debug, "sleep 2";
 
 	co_return 42;
