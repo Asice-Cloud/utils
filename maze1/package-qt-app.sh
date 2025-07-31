@@ -20,7 +20,21 @@ cp $BUILD_DIR/$APP $DIST_DIR/
 ldd $BUILD_DIR/$APP | grep "/libQt" | awk '{print $3}' | xargs -I '{}' cp -v '{}' $DIST_DIR/
 
 # Copy platform plugin (libqxcb)
-cp -v $QT_PLUGINS_DIR/platforms/libqxcb.so $DIST_DIR/platforms/
+PLATFORM_PLUGIN=""
+if [ -f $QT_PLUGINS_DIR/platforms/libqxcb.so ]; then
+  PLATFORM_PLUGIN="$QT_PLUGINS_DIR/platforms/libqxcb.so"
+elif [ -f /usr/lib/qt6/plugins/platforms/libqxcb.so ]; then
+  PLATFORM_PLUGIN="/usr/lib/qt6/plugins/platforms/libqxcb.so"
+elif [ -f /usr/lib64/qt6/plugins/platforms/libqxcb.so ]; then
+  PLATFORM_PLUGIN="/usr/lib64/qt6/plugins/platforms/libqxcb.so"
+else
+  PLATFORM_PLUGIN=$(find /usr -name libqxcb.so 2>/dev/null | head -n 1)
+fi
+if [ -n "$PLATFORM_PLUGIN" ] && [ -f "$PLATFORM_PLUGIN" ]; then
+  cp -v "$PLATFORM_PLUGIN" $DIST_DIR/platforms/
+else
+  echo "Warning: Could not find libqxcb.so. The app may not run on other systems."
+fi
 
 # Copy assets if needed
 cp -r asset $DIST_DIR/
@@ -34,4 +48,3 @@ fi
 echo "\nBundle created in $DIST_DIR. To run on another system, use:"
 echo "  export QT_QPA_PLATFORM_PLUGIN_PATH=\"\$(pwd)/$DIST_DIR/platforms\""
 echo "  cd $DIST_DIR && ./QTqt"
-

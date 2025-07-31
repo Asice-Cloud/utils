@@ -11,9 +11,19 @@ find_package(Qt6 REQUIRED COMPONENTS
         Widgets
        )
 
-add_executable(QTqt main.cpp)
+
+file(GLOB QT_SOURCES
+        "*.cpp"
+        "*.h"
+)
+
+add_executable(QTqt
+        ${QT_SOURCES}
+)
+
+qt_add_resources(QTqt_resources resources.qrc)
 target_link_libraries(QTqt
         Qt::Core
         Qt::Widgets
 )
-
+target_sources(QTqt PRIVATE resources.qrc)
