@@ -40,6 +40,7 @@ int main(int argc, char* argv[])
         QObject::connect(portalWindow, &LabyrinthWidget::requestReturnFromPortal, mainWindow, [&](int row, int col) {
             mainWindow->setPlayerRow(row);
             mainWindow->setPlayerCol(col);
+            mainWindow->removePortal(); // Remove portal after returning
             mainWindow->update();
             mainWindow->setEnabled(true);
             portalWindow->close();

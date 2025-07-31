@@ -21,6 +21,7 @@ public:
     void setEnabled(bool enabled);
     void setSurpriseMode(bool enabled);
     bool isSurpriseMode() const { return surpriseMode; }
+    void removePortal();
 
 signals:
     void requestOpenPortal();

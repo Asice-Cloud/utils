@@ -228,3 +228,11 @@ void LabyrinthWidget::keyPressEvent(QKeyEvent *event)
         update();
     }
 }
+
+void LabyrinthWidget::removePortal() {
+    portalARow = -1;
+    portalACol = -1;
+    portalBRow = -1;
+    portalBCol = -1;
+    update();
+}
