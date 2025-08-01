@@ -4,7 +4,7 @@
 #include <QMessageBox>
 #include "labyrinthwidget.h"
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
@@ -16,7 +16,8 @@ int main(int argc, char* argv[])
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::No);
     int ret = msgBox.exec();
-    if (ret == QMessageBox::Yes) surpriseMode = true;
+    if (ret == QMessageBox::Yes)
+        surpriseMode = true;
 
     LabyrinthWidget *mainWindow = new LabyrinthWidget();
     mainWindow->setSurpriseMode(surpriseMode);
@@ -26,7 +27,8 @@ int main(int argc, char* argv[])
 
     QPointer<LabyrinthWidget> portalWindow = nullptr;
 
-    QObject::connect(mainWindow, &LabyrinthWidget::requestOpenPortal, [&]() {
+    QObject::connect(mainWindow, &LabyrinthWidget::requestOpenPortal, [&]()
+                     {
         if (!mainWindow->isSurpriseMode()) return;
         if (portalWindow) return;
         mainWindow->setEnabled(false);
@@ -46,8 +48,7 @@ int main(int argc, char* argv[])
             portalWindow->close();
             portalWindow->deleteLater();
             portalWindow = nullptr;
-        });
-    });
+        }); });
 
     return a.exec();
 }
