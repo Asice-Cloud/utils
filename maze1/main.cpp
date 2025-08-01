@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
         portalWindow = new LabyrinthWidget();
         portalWindow->setSurpriseMode(true);
         portalWindow->setIsPortalWorld(true);
-        portalWindow->setWindowTitle("Portal World");
+        portalWindow->setWindowTitle("Limbo 嘻嘻,我一定要活下去");
         portalWindow->resize(600, 400);
         portalWindow->setReturnPosition(mainWindow->getPortalBRow(), mainWindow->getPortalBCol());
         portalWindow->show();

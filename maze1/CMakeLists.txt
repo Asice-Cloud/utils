@@ -17,13 +17,13 @@ file(GLOB QT_SOURCES
         "*.h"
 )
 
-add_executable(QTqt
+add_executable(Maze1
         ${QT_SOURCES}
 )
 
 qt_add_resources(QTqt_resources resources.qrc)
-target_link_libraries(QTqt
+target_link_libraries(Maze1
         Qt::Core
         Qt::Widgets
 )
-target_sources(QTqt PRIVATE resources.qrc)
+target_sources(Maze1 PRIVATE resources.qrc)
