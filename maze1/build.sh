@@ -4,8 +4,8 @@
 
 set -e
 
-APP=QTqt
-BUILD_DIR=cmake-build-debug
+APP=Maze1
+BUILD_DIR=build
 DIST_DIR=dist
 QT_PLUGINS_DIR=$(dirname $(ldd $BUILD_DIR/$APP | grep libQt6Core | awk '{print $3}'))/../plugins
 
