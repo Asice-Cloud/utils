@@ -2,6 +2,7 @@
 #define LABYRINTHWIDGET_H
 
 #include <QWidget>
+#include "mazegenerator.h"
 #include <QPixmap>
 #include <QPointer>
 
@@ -32,17 +33,17 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 private:
-    static const int rows = 31;
-    static const int cols = 31;
-    int maze[rows][cols];
+    int rows;
+    int cols;
+    std::vector<std::vector<int>> maze;
     int playerRow;
     int playerCol;
     QPixmap playerPixmap;
     QPixmap portalPixmap;
     bool isPortalWorld = false;
     int portalARow = 2, portalACol = 2; // Example position for portal A
-    int portalBRow = rows-3, portalBCol = cols-3; // Example position for portal B
-    int returnRow = 1, returnCol = 1; // Where to return in original map
+    int portalBRow, portalBCol;         // Example position for portal B
+    int returnRow = 1, returnCol = 1;   // Where to return in original map
     void initMaze();
     void generateRandomMaze();
     void resetPlayer();
