@@ -12,6 +12,7 @@
 #include <memory>
 #include <typeinfo>
 #include <type_traits>
+#include <cmath>
 
 // 成员变量信息结构体
 template <typename T>
@@ -144,326 +145,82 @@ public:
     }
 };
 
-// 成员函数实现 - 无参数版本
-template <typename Class, typename ReturnType>
+// 成员函数实现 - 可变参数版本
+template <typename Class, typename ReturnType, typename... Args>
 class member_function : public function_base
 {
 private:
     std::string name_;
     std::string signature_;
-    ReturnType (Class::*func_ptr_)();
+    ReturnType (Class::*func_ptr_)(Args...);
 
-public:
-    member_function(const std::string &name, ReturnType (Class::*func_ptr)())
-        : name_(name), func_ptr_(func_ptr)
+    // 辅助函数：将参数包转换为类型名称
+    std::string build_signature() const
     {
-        signature_ = name + "() -> " + function_name_parser::clean_type_name(typeid(ReturnType).name());
-    }
-
-    std::string_view get_name() const override { return name_; }
-    std::string_view get_signature() const override { return signature_; }
-    size_t get_param_count() const override { return 0; }
-
-    std::vector<std::string> get_param_types() const override
-    {
-        return {};
-    }
-
-    std::any invoke(void *obj, const std::vector<std::any> &args) override
-    {
-        if (!args.empty())
+        std::string sig = name_ + "(";
+        if constexpr (sizeof...(Args) > 0)
         {
-            throw std::invalid_argument("Function expects 0 arguments, got " + std::to_string(args.size()));
+            auto type_names = std::vector<std::string>{
+                function_name_parser::clean_type_name(typeid(Args).name())...};
+            for (size_t i = 0; i < type_names.size(); ++i)
+            {
+                if (i > 0)
+                    sig += ", ";
+                sig += type_names[i];
+            }
         }
+        sig += ") -> " + function_name_parser::clean_type_name(typeid(ReturnType).name());
+        return sig;
+    }
 
-        Class *class_obj = static_cast<Class *>(obj);
+    // 辅助函数：从 std::any 参数中提取参数并调用函数
+    template <std::size_t... I>
+    std::any invoke_impl(Class *obj, const std::vector<std::any> &args, std::index_sequence<I...>)
+    {
         if constexpr (std::is_void_v<ReturnType>)
         {
-            (class_obj->*func_ptr_)();
+            (obj->*func_ptr_)(std::any_cast<Args>(args[I])...);
             return std::any{};
         }
         else
         {
-            return std::any((class_obj->*func_ptr_)());
+            return std::any((obj->*func_ptr_)(std::any_cast<Args>(args[I])...));
         }
     }
-};
-
-// 成员函数实现 - 单参数版本
-template <typename Class, typename ReturnType, typename Param1>
-class member_function_1 : public function_base
-{
-private:
-    std::string name_;
-    std::string signature_;
-    ReturnType (Class::*func_ptr_)(Param1);
 
 public:
-    member_function_1(const std::string &name, ReturnType (Class::*func_ptr)(Param1))
+    member_function(const std::string &name, ReturnType (Class::*func_ptr)(Args...))
         : name_(name), func_ptr_(func_ptr)
     {
-        signature_ = name + "(" + function_name_parser::clean_type_name(typeid(Param1).name()) +
-                     ") -> " + function_name_parser::clean_type_name(typeid(ReturnType).name());
+        signature_ = build_signature();
     }
 
     std::string_view get_name() const override { return name_; }
     std::string_view get_signature() const override { return signature_; }
-    size_t get_param_count() const override { return 1; }
+    size_t get_param_count() const override { return sizeof...(Args); }
 
     std::vector<std::string> get_param_types() const override
     {
-        return {function_name_parser::clean_type_name(typeid(Param1).name())};
+        if constexpr (sizeof...(Args) == 0)
+        {
+            return {};
+        }
+        else
+        {
+            return {function_name_parser::clean_type_name(typeid(Args).name())...};
+        }
     }
 
     std::any invoke(void *obj, const std::vector<std::any> &args) override
     {
-        if (args.size() != 1)
+        if (args.size() != sizeof...(Args))
         {
-            throw std::invalid_argument("Function expects 1 argument, got " + std::to_string(args.size()));
+            throw std::invalid_argument("Function expects " + std::to_string(sizeof...(Args)) +
+                                        " arguments, got " + std::to_string(args.size()));
         }
 
         Class *class_obj = static_cast<Class *>(obj);
-        Param1 param1 = std::any_cast<Param1>(args[0]);
-
-        if constexpr (std::is_void_v<ReturnType>)
-        {
-            (class_obj->*func_ptr_)(param1);
-            return std::any{};
-        }
-        else
-        {
-            return std::any((class_obj->*func_ptr_)(param1));
-        }
-    }
-};
-
-// 成员函数实现 - 双参数版本
-template <typename Class, typename ReturnType, typename Param1, typename Param2>
-class member_function_2 : public function_base
-{
-private:
-    std::string name_;
-    std::string signature_;
-    ReturnType (Class::*func_ptr_)(Param1, Param2);
-
-public:
-    member_function_2(const std::string &name, ReturnType (Class::*func_ptr)(Param1, Param2))
-        : name_(name), func_ptr_(func_ptr)
-    {
-        signature_ = name + "(" +
-                     function_name_parser::clean_type_name(typeid(Param1).name()) + ", " +
-                     function_name_parser::clean_type_name(typeid(Param2).name()) +
-                     ") -> " + function_name_parser::clean_type_name(typeid(ReturnType).name());
-    }
-
-    std::string_view get_name() const override { return name_; }
-    std::string_view get_signature() const override { return signature_; }
-    size_t get_param_count() const override { return 2; }
-
-    std::vector<std::string> get_param_types() const override
-    {
-        return {
-            function_name_parser::clean_type_name(typeid(Param1).name()),
-            function_name_parser::clean_type_name(typeid(Param2).name())};
-    }
-
-    std::any invoke(void *obj, const std::vector<std::any> &args) override
-    {
-        if (args.size() != 2)
-        {
-            throw std::invalid_argument("Function expects 2 arguments, got " + std::to_string(args.size()));
-        }
-
-        Class *class_obj = static_cast<Class *>(obj);
-        Param1 param1 = std::any_cast<Param1>(args[0]);
-        Param2 param2 = std::any_cast<Param2>(args[1]);
-
-        if constexpr (std::is_void_v<ReturnType>)
-        {
-            (class_obj->*func_ptr_)(param1, param2);
-            return std::any{};
-        }
-        else
-        {
-            return std::any((class_obj->*func_ptr_)(param1, param2));
-        }
-    }
-};
-
-// 成员函数实现 - 三参数版本
-template <typename Class, typename ReturnType, typename Param1, typename Param2, typename Param3>
-class member_function_3 : public function_base
-{
-private:
-    std::string name_;
-    std::string signature_;
-    ReturnType (Class::*func_ptr_)(Param1, Param2, Param3);
-
-public:
-    member_function_3(const std::string &name, ReturnType (Class::*func_ptr)(Param1, Param2, Param3))
-        : name_(name), func_ptr_(func_ptr)
-    {
-        signature_ = name + "(" +
-                     function_name_parser::clean_type_name(typeid(Param1).name()) + ", " +
-                     function_name_parser::clean_type_name(typeid(Param2).name()) + ", " +
-                     function_name_parser::clean_type_name(typeid(Param3).name()) +
-                     ") -> " + function_name_parser::clean_type_name(typeid(ReturnType).name());
-    }
-
-    std::string_view get_name() const override { return name_; }
-    std::string_view get_signature() const override { return signature_; }
-    size_t get_param_count() const override { return 3; }
-
-    std::vector<std::string> get_param_types() const override
-    {
-        return {
-            function_name_parser::clean_type_name(typeid(Param1).name()),
-            function_name_parser::clean_type_name(typeid(Param2).name()),
-            function_name_parser::clean_type_name(typeid(Param3).name())};
-    }
-
-    std::any invoke(void *obj, const std::vector<std::any> &args) override
-    {
-        if (args.size() != 3)
-        {
-            throw std::invalid_argument("Function expects 3 arguments, got " + std::to_string(args.size()));
-        }
-
-        Class *class_obj = static_cast<Class *>(obj);
-        Param1 param1 = std::any_cast<Param1>(args[0]);
-        Param2 param2 = std::any_cast<Param2>(args[1]);
-        Param3 param3 = std::any_cast<Param3>(args[2]);
-
-        if constexpr (std::is_void_v<ReturnType>)
-        {
-            (class_obj->*func_ptr_)(param1, param2, param3);
-            return std::any{};
-        }
-        else
-        {
-            return std::any((class_obj->*func_ptr_)(param1, param2, param3));
-        }
-    }
-};
-
-// 成员函数实现 - 四参数版本
-template <typename Class, typename ReturnType, typename Param1, typename Param2, typename Param3, typename Param4>
-class member_function_4 : public function_base
-{
-private:
-    std::string name_;
-    std::string signature_;
-    ReturnType (Class::*func_ptr_)(Param1, Param2, Param3, Param4);
-
-public:
-    member_function_4(const std::string &name, ReturnType (Class::*func_ptr)(Param1, Param2, Param3, Param4))
-        : name_(name), func_ptr_(func_ptr)
-    {
-        signature_ = name + "(" +
-                     function_name_parser::clean_type_name(typeid(Param1).name()) + ", " +
-                     function_name_parser::clean_type_name(typeid(Param2).name()) + ", " +
-                     function_name_parser::clean_type_name(typeid(Param3).name()) + ", " +
-                     function_name_parser::clean_type_name(typeid(Param4).name()) +
-                     ") -> " + function_name_parser::clean_type_name(typeid(ReturnType).name());
-    }
-
-    std::string_view get_name() const override { return name_; }
-    std::string_view get_signature() const override { return signature_; }
-    size_t get_param_count() const override { return 4; }
-
-    std::vector<std::string> get_param_types() const override
-    {
-        return {
-            function_name_parser::clean_type_name(typeid(Param1).name()),
-            function_name_parser::clean_type_name(typeid(Param2).name()),
-            function_name_parser::clean_type_name(typeid(Param3).name()),
-            function_name_parser::clean_type_name(typeid(Param4).name())};
-    }
-
-    std::any invoke(void *obj, const std::vector<std::any> &args) override
-    {
-        if (args.size() != 4)
-        {
-            throw std::invalid_argument("Function expects 4 arguments, got " + std::to_string(args.size()));
-        }
-
-        Class *class_obj = static_cast<Class *>(obj);
-        Param1 param1 = std::any_cast<Param1>(args[0]);
-        Param2 param2 = std::any_cast<Param2>(args[1]);
-        Param3 param3 = std::any_cast<Param3>(args[2]);
-        Param4 param4 = std::any_cast<Param4>(args[3]);
-
-        if constexpr (std::is_void_v<ReturnType>)
-        {
-            (class_obj->*func_ptr_)(param1, param2, param3, param4);
-            return std::any{};
-        }
-        else
-        {
-            return std::any((class_obj->*func_ptr_)(param1, param2, param3, param4));
-        }
-    }
-};
-
-// 成员函数实现 - 五参数版本
-template <typename Class, typename ReturnType, typename Param1, typename Param2, typename Param3, typename Param4, typename Param5>
-class member_function_5 : public function_base
-{
-private:
-    std::string name_;
-    std::string signature_;
-    ReturnType (Class::*func_ptr_)(Param1, Param2, Param3, Param4, Param5);
-
-public:
-    member_function_5(const std::string &name, ReturnType (Class::*func_ptr)(Param1, Param2, Param3, Param4, Param5))
-        : name_(name), func_ptr_(func_ptr)
-    {
-        signature_ = name + "(" +
-                     function_name_parser::clean_type_name(typeid(Param1).name()) + ", " +
-                     function_name_parser::clean_type_name(typeid(Param2).name()) + ", " +
-                     function_name_parser::clean_type_name(typeid(Param3).name()) + ", " +
-                     function_name_parser::clean_type_name(typeid(Param4).name()) + ", " +
-                     function_name_parser::clean_type_name(typeid(Param5).name()) +
-                     ") -> " + function_name_parser::clean_type_name(typeid(ReturnType).name());
-    }
-
-    std::string_view get_name() const override { return name_; }
-    std::string_view get_signature() const override { return signature_; }
-    size_t get_param_count() const override { return 5; }
-
-    std::vector<std::string> get_param_types() const override
-    {
-        return {
-            function_name_parser::clean_type_name(typeid(Param1).name()),
-            function_name_parser::clean_type_name(typeid(Param2).name()),
-            function_name_parser::clean_type_name(typeid(Param3).name()),
-            function_name_parser::clean_type_name(typeid(Param4).name()),
-            function_name_parser::clean_type_name(typeid(Param5).name())};
-    }
-
-    std::any invoke(void *obj, const std::vector<std::any> &args) override
-    {
-        if (args.size() != 5)
-        {
-            throw std::invalid_argument("Function expects 5 arguments, got " + std::to_string(args.size()));
-        }
-
-        Class *class_obj = static_cast<Class *>(obj);
-        Param1 param1 = std::any_cast<Param1>(args[0]);
-        Param2 param2 = std::any_cast<Param2>(args[1]);
-        Param3 param3 = std::any_cast<Param3>(args[2]);
-        Param4 param4 = std::any_cast<Param4>(args[3]);
-        Param5 param5 = std::any_cast<Param5>(args[4]);
-
-        if constexpr (std::is_void_v<ReturnType>)
-        {
-            (class_obj->*func_ptr_)(param1, param2, param3, param4, param5);
-            return std::any{};
-        }
-        else
-        {
-            return std::any((class_obj->*func_ptr_)(param1, param2, param3, param4, param5));
-        }
+        return invoke_impl(class_obj, args, std::index_sequence_for<Args...>{});
     }
 };
 
@@ -492,46 +249,11 @@ protected:
         properties_[name] = std::make_unique<property<T>>(ptr);
     }
 
-    // 注册无参数成员函数
-    template <typename Class, typename ReturnType>
-    void register_function(const std::string &name, ReturnType (Class::*func_ptr)())
+    // 注册成员函数 - 可变参数版本
+    template <typename Class, typename ReturnType, typename... Args>
+    void register_function(const std::string &name, ReturnType (Class::*func_ptr)(Args...))
     {
-        functions_[name] = std::make_unique<member_function<Class, ReturnType>>(name, func_ptr);
-    }
-
-    // 注册单参数成员函数
-    template <typename Class, typename ReturnType, typename Param1>
-    void register_function(const std::string &name, ReturnType (Class::*func_ptr)(Param1))
-    {
-        functions_[name] = std::make_unique<member_function_1<Class, ReturnType, Param1>>(name, func_ptr);
-    }
-
-    // 注册双参数成员函数
-    template <typename Class, typename ReturnType, typename Param1, typename Param2>
-    void register_function(const std::string &name, ReturnType (Class::*func_ptr)(Param1, Param2))
-    {
-        functions_[name] = std::make_unique<member_function_2<Class, ReturnType, Param1, Param2>>(name, func_ptr);
-    }
-
-    // 注册三参数成员函数
-    template <typename Class, typename ReturnType, typename Param1, typename Param2, typename Param3>
-    void register_function(const std::string &name, ReturnType (Class::*func_ptr)(Param1, Param2, Param3))
-    {
-        functions_[name] = std::make_unique<member_function_3<Class, ReturnType, Param1, Param2, Param3>>(name, func_ptr);
-    }
-
-    // 注册四参数成员函数
-    template <typename Class, typename ReturnType, typename Param1, typename Param2, typename Param3, typename Param4>
-    void register_function(const std::string &name, ReturnType (Class::*func_ptr)(Param1, Param2, Param3, Param4))
-    {
-        functions_[name] = std::make_unique<member_function_4<Class, ReturnType, Param1, Param2, Param3, Param4>>(name, func_ptr);
-    }
-
-    // 注册五参数成员函数
-    template <typename Class, typename ReturnType, typename Param1, typename Param2, typename Param3, typename Param4, typename Param5>
-    void register_function(const std::string &name, ReturnType (Class::*func_ptr)(Param1, Param2, Param3, Param4, Param5))
-    {
-        functions_[name] = std::make_unique<member_function_5<Class, ReturnType, Param1, Param2, Param3, Param4, Param5>>(name, func_ptr);
+        functions_[name] = std::make_unique<member_function<Class, ReturnType, Args...>>(name, func_ptr);
     }
 
     // 批量注册成员变量
@@ -876,11 +598,12 @@ public:
         REGISTER_MEMBER(ratio);
         REGISTER_MEMBER(active);
 
-        // 注册函数
-        REGISTER_FUNCTION(process);
-        REGISTER_FUNCTION(get_info);
-        REGISTER_FUNCTION(set_value);
-        REGISTER_FUNCTION(calculate);
+        // 注册函数 - 展示可变参数支持
+        REGISTER_FUNCTION(process);      // 0 参数
+        REGISTER_FUNCTION(get_info);     // 0 参数
+        REGISTER_FUNCTION(set_value);    // 1 参数
+        REGISTER_FUNCTION(calculate);    // 2 参数
+        REGISTER_FUNCTION(complex_calc); // 5 参数
     }
 
     void print_source_location(const std::source_location &loc = std::source_location::current())
@@ -912,5 +635,19 @@ public:
         std::cout << "Calculation: " << value << " * " << multiplier << " * " << ratio
                   << " + " << offset << " = " << result << std::endl;
         return result;
+    }
+
+    // 演示5参数函数 - 展示可变参数模板的威力
+    std::string complex_calc(int base, double factor, const std::string &prefix, bool round_result, float precision)
+    {
+        double result = (value + base) * factor * ratio;
+        if (round_result)
+        {
+            result = std::round(result * precision) / precision;
+        }
+
+        std::string output = prefix + "_" + std::to_string(result);
+        std::cout << "Complex calculation with 5 parameters: " << output << std::endl;
+        return output;
     }
 };
