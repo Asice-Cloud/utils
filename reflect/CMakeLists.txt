@@ -3,5 +3,5 @@ project(reflect)
 
 set(CMAKE_CXX_STANDARD 23)
 
-add_executable(reflect main.cpp
-)
+# C++ 反射系统演示
+add_executable(reflect main.cpp reflect.h)

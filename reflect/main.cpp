@@ -1,132 +1,88 @@
-#include <source_location>
+#include "reflect.h"
 #include <iostream>
-#include <string>
-#include <type_traits>
-#include <string_view>
 
-template <typename T>
-void log(const T &message, const std::source_location &location = std::source_location::current())
+// 演示反射功能的人员类
+class person : public reflected_object
 {
-    std::string file = location.file_name();
-    std::string parent_dir = file.substr(0, file.find_last_of('/'));
-    std::string path = parent_dir.substr(parent_dir.find_last_of('/') + 1) + "/" + file.substr(file.find_last_of('/') + 1);
-    std::cout << "[" << path
-              << "(" << location.line()
-              << " " << location.column() << ")]"
-              << ": " << location.function_name()
-              << ": " << message << "\n";
-}
+public:
+    std::string name;
+    int age;
+    double height;
+    bool is_employed;
 
-template <typename T>
-std::string_view get_type_name()
-{
-    std::string_view sl = std::source_location::current().function_name();
-    // std::string sl = __PRETTY_FUNCTION__;
+    person(const std::string &n = "Unknown", int a = 0)
+        : name(n), age(a), height(170.0), is_employed(false)
+    {
+        // 批量注册所有成员变量和函数
+        REGISTER_MEMBERS(MEMBER(name), MEMBER(age), MEMBER(height), MEMBER(is_employed));
+        REGISTER_FUNCTIONS(FUNCTION(introduce), FUNCTION(get_info), FUNCTION(set_age));
+    }
 
-    auto start = sl.find("T = ");
-    start += 4;
-    auto end = sl.find("]", start);
-    return sl.substr(start, end - start);
-}
+    void introduce()
+    {
+        std::cout << "Hi, I'm " << name << ", " << age << " years old, "
+                  << height << "cm tall, " << (is_employed ? "employed" : "unemployed") << std::endl;
+    }
 
-template <typename T, T n>
-std::string_view get_enum_name()
-{
-    std::string_view sl = std::source_location::current().function_name();
+    std::string get_info()
+    {
+        return name + " (Age: " + std::to_string(age) + ", Height: " + std::to_string(height) + "cm)";
+    }
 
-    auto start = sl.find("n = ");
-    start += 4;
-    auto end = sl.find_first_of("]", start);
-
-    return sl.substr(start, end - start);
-}
-
-enum class Color
-{
-    Red = 1,
-    Green = 2,
-    Blue = 3,
-    Yellow = 4,
-    Cyan = 5,
+    void set_age(int new_age)
+    {
+        std::cout << "Age updated: " << age << " -> " << new_age << std::endl;
+        age = new_age;
+    }
 };
-
-template <int N>
-struct int_constant
-{
-    static constexpr int value = N;
-};
-
-template <int start, int end, typename F>
-void static_for(const F &f)
-{
-    if constexpr (start == end)
-    {
-        return;
-    }
-    else
-    {
-        // f(int_constant<start>());
-        f(std::integral_constant<int, start>());
-        static_for<start + 1, end>(f);
-    }
-}
-
-template <int start = 0, int end = 10, typename T>
-std::string_view get_enum_name_dynamic(T n)
-{
-    std::string_view ret;
-    static_for<start, end + 1>([&](auto ic)
-                               {
-        constexpr auto i = ic.value;
-        if (n == static_cast<T>(i))
-        {
-            ret = get_enum_name<T, static_cast<T>(i)>();
-        } });
-
-    if (ret.empty())
-    {
-        ret = "Unknown";
-    }
-    return ret;
-}
-
-template <typename T, int start = 0, int end = 10>
-T enum_from_name(std::string_view name)
-{
-    for (int i = start; i <= end; ++i)
-    {
-        std::string_view enum_name = get_enum_name_dynamic((T)i);
-        // Check if the enum name ends with the search name (handles "Color::Yellow" vs "Yellow")
-        if (enum_name == name ||
-            (enum_name.size() > name.size() &&
-             enum_name.substr(enum_name.size() - name.size()) == name &&
-             enum_name[enum_name.size() - name.size() - 1] == ':'))
-        {
-            return (T)i;
-        }
-    }
-
-    throw std::runtime_error("Enum name not found");
-}
-
-
-// Add operator<< overload for Color enum to print the underlying value
-std::ostream& operator<<(std::ostream& os, Color color) {
-    os << static_cast<int>(color);
-    return os;
-}
 
 int main()
 {
-    // log("Hello, World!");
+    std::cout << "=== C++ Reflection Demo ===\n\n";
 
-    std::cout << get_type_name<std::string>() << '\n';
+    person p("Alice", 25);
 
-    std::cout << get_enum_name<Color, Color{4}>() << '\n';
+    // 属性反射演示
+    std::cout << "=== Property Reflection ===\n";
+    p.print_reflection_info();
 
-    Color c = Color::Green;
-    std::cout << get_enum_name_dynamic(c) << '\n';
+    p.set_property("name", std::string("Bob"));
+    p.set_property("age", 30);
+    p.set_property("is_employed", true);
+    std::cout << "\nAfter modification:\n";
+    p.print_reflection_info();
 
-    std::cout<<enum_from_name<Color>("Yellow") << '\n';
+    // 函数反射演示
+    std::cout << "\n=== Function Reflection ===\n";
+    p.call_function("introduce");
+
+    auto info = p.call_function("get_info");
+    std::cout << "Info: " << std::any_cast<std::string>(info) << std::endl;
+
+    p.call_function("set_age", {35});
+
+    // 访问者模式演示
+    std::cout << "\n=== Visitor Pattern ===\n";
+    p.visit_all_members(
+        [](const std::string &name, const std::any &value, std::string_view type)
+        {
+            std::cout << "  [Property] " << name << " (" << type << ") = ";
+            if (value.type() == typeid(int))
+                std::cout << std::any_cast<int>(value);
+            else if (value.type() == typeid(std::string))
+                std::cout << "\"" << std::any_cast<std::string>(value) << "\"";
+            else if (value.type() == typeid(double))
+                std::cout << std::any_cast<double>(value);
+            else if (value.type() == typeid(bool))
+                std::cout << (std::any_cast<bool>(value) ? "true" : "false");
+            std::cout << "\n";
+        },
+        [](const std::string &name, std::string_view signature, size_t param_count,
+           const std::vector<std::string> &param_types)
+        {
+            std::cout << "  [Function] " << name << " -> " << signature << " (params: " << param_count << ")\n";
+        });
+
+    std::cout << "\n=== Demo completed! ===\n";
     return 0;
 }
