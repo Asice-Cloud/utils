@@ -3,8 +3,7 @@
 #include <string>
 
 // 演示反射功能的人员类
-class person : public reflected_object
-{
+class person : public reflected_object {
 public:
   std::string name;
   int age;
@@ -12,8 +11,7 @@ public:
   bool is_employed;
 
   person(const std::string &n = "Unknown", int a = 0)
-      : name(n), age(a), height(170.0), is_employed(false)
-  {
+      : name(n), age(a), height(170.0), is_employed(false) {
     // 批量注册所有成员变量和函数
     REGISTER_MEMBERS(MEMBER(name), MEMBER(age), MEMBER(height),
                      MEMBER(is_employed));
@@ -21,27 +19,24 @@ public:
                        FUNCTION(set_age), FUNCTION(calculate_bmi));
   }
 
-  void introduce()
-  {
+  void introduce() {
     std::cout << "Hi, I'm " << name << ", " << age << " years old, " << height
               << "cm tall, " << (is_employed ? "employed" : "unemployed")
               << std::endl;
   }
 
-  std::string get_info()
-  {
-    return name + " (Age: " + std::to_string(age) + ", Height: " + std::to_string(height) + "cm)";
+  std::string get_info() {
+    return name + " (Age: " + std::to_string(age) +
+           ", Height: " + std::to_string(height) + "cm)";
   }
 
-  void set_age(int new_age)
-  {
+  void set_age(int new_age) {
     std::cout << "Age updated: " << age << " -> " << new_age << std::endl;
     age = new_age;
   }
 
   // 新增：演示多参数函数
-  double calculate_bmi(double weight, bool use_metric = true)
-  {
+  double calculate_bmi(double weight, bool use_metric = true) {
     double height_m = use_metric ? height / 100.0 : height; // 转换为米
     double bmi = weight / (height_m * height_m);
     std::cout << "BMI calculation: " << weight << "kg / (" << height_m
@@ -51,16 +46,14 @@ public:
 };
 
 // 演示可变参数功能的测试类
-class variadic_demo : public reflected_object
-{
+class variadic_demo : public reflected_object {
 public:
   std::string name;
   int value;
   double ratio;
 
   variadic_demo(const std::string &n = "demo", int v = 42)
-      : name(n), value(v), ratio(1.0)
-  {
+      : name(n), value(v), ratio(1.0) {
     // 注册属性
     REGISTER_MEMBER(name);
     REGISTER_MEMBER(value);
@@ -79,15 +72,13 @@ public:
   void func0() { std::cout << "func0() - no parameters" << std::endl; }
 
   // 1 参数函数
-  int func1(int x)
-  {
+  int func1(int x) {
     std::cout << "func1(" << x << ") - returns " << (x * 2) << std::endl;
     return x * 2;
   }
 
   // 2 参数函数
-  std::string func2(int x, const std::string &s)
-  {
+  std::string func2(int x, const std::string &s) {
     std::string result = s + "_" + std::to_string(x);
     std::cout << "func2(" << x << ", \"" << s << "\") - returns \"" << result
               << "\"" << std::endl;
@@ -95,8 +86,7 @@ public:
   }
 
   // 3 参数函数
-  double func3(int a, double b, bool c)
-  {
+  double func3(int a, double b, bool c) {
     double result = c ? (a + b) : (a - b);
     std::cout << "func3(" << a << ", " << b << ", " << (c ? "true" : "false")
               << ") - returns " << result << std::endl;
@@ -104,21 +94,19 @@ public:
   }
 
   // 4 参数函数
-  void func4(int a, double b, const std::string &c, bool d)
-  {
+  void func4(int a, double b, const std::string &c, bool d) {
     std::cout << "func4(" << a << ", " << b << ", \"" << c << "\", "
               << (d ? "true" : "false") << ")";
-    if (d)
-    {
+    if (d) {
       std::cout << " - processed: " << c << "_" << (a + b);
     }
     std::cout << std::endl;
   }
 
   // 5 参数函数
-  std::string func5(int a, double b, const std::string &c, bool d, float e)
-  {
-    std::string result = c + "_" + std::to_string(a) + "_" + std::to_string(b) + "_" + std::to_string(e);
+  std::string func5(int a, double b, const std::string &c, bool d, float e) {
+    std::string result = c + "_" + std::to_string(a) + "_" + std::to_string(b) +
+                         "_" + std::to_string(e);
     if (d)
       result += "_enabled";
     std::cout << "func5(5 params) - returns \"" << result << "\"" << std::endl;
@@ -127,16 +115,13 @@ public:
 };
 
 // 分割线函数
-void print_separator(const std::string &title)
-{
-  std::cout << "\n"
-            << std::string(50, '=') << std::endl;
+void print_separator(const std::string &title) {
+  std::cout << "\n" << std::string(50, '=') << std::endl;
   std::cout << "=== " << title << " ===" << std::endl;
   std::cout << std::string(50, '=') << std::endl;
 }
 
-int main()
-{
+int main() {
   std::cout << "🚀 C++ Variadic Template Reflection System Demo 🚀"
             << std::endl;
 
@@ -178,8 +163,7 @@ int main()
 
   std::cout << "\n--- Testing All Parameter Counts ---" << std::endl;
 
-  try
-  {
+  try {
     // 0 参数
     std::cout << "🔹 0 parameters: ";
     demo.call_function("func0");
@@ -204,9 +188,7 @@ int main()
     std::cout << "🔹 5 parameters: ";
     auto result5 = demo.call_function(
         "func5", {7, 1.5, std::string("complex"), false, 9.9f});
-  }
-  catch (const std::exception &e)
-  {
+  } catch (const std::exception &e) {
     std::cerr << "❌ Error: " << e.what() << std::endl;
   }
 
@@ -221,8 +203,7 @@ int main()
   n.print_reflection_info();
 
   std::cout << "\n--- Node Function Tests ---" << std::endl;
-  try
-  {
+  try {
     n.call_function("process");
 
     auto node_info = n.call_function("get_info");
@@ -236,20 +217,19 @@ int main()
               << std::endl;
 
     // 5参数复杂计算
-    auto complex_result = n.call_function("complex_calc",
-                                          {
-                                              25,                    // int base
-                                              1.2,                   // double factor
-                                              std::string("result"), // string prefix
-                                              true,                  // bool round_result
-                                              10.0f                  // float precision
-                                          });
+    auto complex_result =
+        n.call_function("complex_calc",
+                        {
+                            25,                    // int base
+                            1.2,                   // double factor
+                            std::string("result"), // string prefix
+                            true,                  // bool round_result
+                            10.0f                  // float precision
+                        });
     std::cout << "Complex result: \""
               << std::any_cast<std::string>(complex_result) << "\""
               << std::endl;
-  }
-  catch (const std::exception &e)
-  {
+  } catch (const std::exception &e) {
     std::cerr << "❌ Error: " << e.what() << std::endl;
   }
 
@@ -260,35 +240,24 @@ int main()
   p.visit_all_members(
       // 属性访问者
       [](const std::string &name, const std::any &value,
-         std::string_view type)
-      {
+         std::string_view type) {
         std::cout << "  📋 [Property] " << name << " (" << type << ") = ";
-        if (type == "int")
-        {
+        if (type == "int") {
           std::cout << std::any_cast<int>(value);
-        }
-        else if (type == "string")
-        {
+        } else if (type == "string") {
           std::cout << "\"" << std::any_cast<std::string>(value) << "\"";
-        }
-        else if (type == "double")
-        {
+        } else if (type == "double") {
           std::cout << std::any_cast<double>(value);
-        }
-        else if (type == "bool")
-        {
+        } else if (type == "bool") {
           std::cout << (std::any_cast<bool>(value) ? "true" : "false");
-        }
-        else
-        {
+        } else {
           std::cout << "unknown";
         }
         std::cout << std::endl;
       },
       // 函数访问者
       [](const std::string &name, std::string_view signature,
-         size_t param_count, const std::vector<std::string> &param_types)
-      {
+         size_t param_count, const std::vector<std::string> &param_types) {
         std::cout << "  ⚙️  [Function] " << name << " -> " << signature
                   << " (params: " << param_count << ")" << std::endl;
       });
