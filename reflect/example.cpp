@@ -10,11 +10,17 @@ struct Point :public reflected_object{
 
     Point(int a,int b): x(a), y(b) {
         REGISTER_MEMBERS(MEMBER(x), MEMBER(y));
-        REGISTER_FUNCTIONS(FUNCTION(inner_product));
+        REGISTER_FUNCTIONS(FUNCTION(inner_product),FUNCTION(inner_with_other));
     }
+    Point(const Point&) = delete;
+    Point& operator=(const Point&) = delete;
 
     int inner_product(int a, int b) const {
         return x * a + y * b;
+    }
+
+    int inner_with_other(const Point& other) const {
+        return x * other.x + y * other.y;
     }
 };
 
@@ -23,5 +29,11 @@ int main() {
     p.print_reflection_info();
     auto result = p.call_function("inner_product", {3, 4});
     std::cout << "Inner product result: " << std::any_cast<int>(result) << std::endl;
+
+    // 测试 const Point& 参数的反射调用
+    Point p2(7, 8);
+    auto result2 = p.call_function("inner_with_other", {std::cref(p2)});
+    std::cout << "Inner with other (ref) result: " << std::any_cast<int>(result2) << std::endl;
+
     return 0;
 }

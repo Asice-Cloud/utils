@@ -173,18 +173,33 @@ private:
         return sig;
     }
 
+    // 辅助函数：从 std::any 提取参数，支持引用和 const 引用
+    template<typename T>
+    static T extract_arg(const std::any& a) {
+        using base_t = std::remove_reference_t<T>;
+        if constexpr (std::is_lvalue_reference_v<T>) {
+            if (a.type() == typeid(std::reference_wrapper<base_t>))
+                return static_cast<T>(std::any_cast<std::reference_wrapper<base_t>>(a).get());
+            if (a.type() == typeid(base_t))
+                return static_cast<T>(std::any_cast<base_t&>(const_cast<std::any&>(a)));
+            return std::any_cast<T>(a);
+        } else {
+            return std::any_cast<T>(a);
+        }
+    }
+
     // 辅助函数：从 std::any 参数中提取参数并调用函数
     template <std::size_t... I>
     std::any invoke_impl(Class *obj, const std::vector<std::any> &args, std::index_sequence<I...>)
     {
         if constexpr (std::is_void_v<ReturnType>)
         {
-            (obj->*func_ptr_)(std::any_cast<Args>(args[I])...);
+            (obj->*func_ptr_)(extract_arg<Args>(args[I])...);
             return std::any{};
         }
         else
         {
-            return std::any((obj->*func_ptr_)(std::any_cast<Args>(args[I])...));
+            return std::any((obj->*func_ptr_)(extract_arg<Args>(args[I])...));
         }
     }
 
@@ -247,13 +262,28 @@ private:
         return sig;
     }
 
+    // 辅助函数：从 std::any 提取参数，支持引用和 const 引用
+    template<typename T>
+    static T extract_arg(const std::any& a) {
+        using base_t = std::remove_reference_t<T>;
+        if constexpr (std::is_lvalue_reference_v<T>) {
+            if (a.type() == typeid(std::reference_wrapper<base_t>))
+                return static_cast<T>(std::any_cast<std::reference_wrapper<base_t>>(a).get());
+            if (a.type() == typeid(base_t))
+                return static_cast<T>(std::any_cast<base_t&>(const_cast<std::any&>(a)));
+            return std::any_cast<T>(a);
+        } else {
+            return std::any_cast<T>(a);
+        }
+    }
+
     template<std::size_t... I>
     std::any invoke_impl(const Class* obj, const std::vector<std::any>& args, std::index_sequence<I...>) {
         if constexpr (std::is_void_v<ReturnType>) {
-            (obj->*func_ptr_)(std::any_cast<Args>(args[I])...);
+            (obj->*func_ptr_)(extract_arg<Args>(args[I])...);
             return std::any{};
         } else {
-            return std::any((obj->*func_ptr_)(std::any_cast<Args>(args[I])...));
+            return std::any((obj->*func_ptr_)(extract_arg<Args>(args[I])...));
         }
     }
 public:
@@ -388,7 +418,7 @@ public:
         return false;
     }
 
-    // 获取所有属性名
+    // 获���所有属性名
     std::vector<std::string> get_property_names() const
     {
         std::vector<std::string> names;
