@@ -224,6 +224,68 @@ public:
     }
 };
 
+// const member function
+template<typename Class, typename ReturnType, typename... Args>
+class const_member_function : public function_base {
+private:
+    std::string name_;
+    std::string signature_;
+    ReturnType (Class::*func_ptr_)(Args...) const;
+
+    std::string build_signature() const {
+        std::string sig = name_ + "(";
+        if constexpr (sizeof...(Args) > 0) {
+            auto type_names = std::vector<std::string>{
+                function_name_parser::clean_type_name(typeid(Args).name())...};
+            for (size_t i = 0; i < type_names.size(); ++i) {
+                if (i > 0)
+                    sig += ", ";
+                sig += type_names[i];
+            }
+        }
+        sig += ") -> " + function_name_parser::clean_type_name(typeid(ReturnType).name());
+        return sig;
+    }
+
+    template<std::size_t... I>
+    std::any invoke_impl(const Class* obj, const std::vector<std::any>& args, std::index_sequence<I...>) {
+        if constexpr (std::is_void_v<ReturnType>) {
+            (obj->*func_ptr_)(std::any_cast<Args>(args[I])...);
+            return std::any{};
+        } else {
+            return std::any((obj->*func_ptr_)(std::any_cast<Args>(args[I])...));
+        }
+    }
+public:
+    const_member_function(const std::string &name, ReturnType (Class::*func_ptr)(Args...) const)
+        : name_(name), func_ptr_(func_ptr) {
+        signature_ = build_signature();
+    }
+
+
+    std::string_view get_name() const override { return name_; }
+    std::string_view get_signature() const override { return signature_; }
+    size_t get_param_count() const override { return sizeof...(Args); }
+
+    std::vector<std::string> get_param_types() const override {
+        if constexpr (sizeof...(Args) == 0) {
+            return {};
+        } else {
+            return {function_name_parser::clean_type_name(typeid(Args).name())...};
+        }
+    }
+
+    std::any invoke(void* obj, const std::vector<std::any>& args) override {
+        if (args.size() != sizeof...(Args)) {
+            throw std::invalid_argument("Function expects " + std::to_string(sizeof...(Args)) +
+                                        " arguments, got " + std::to_string(args.size()));
+        }
+
+        const Class* class_obj = static_cast<const Class*>(obj);
+        return invoke_impl(class_obj, args, std::index_sequence_for<Args...>{});
+    }
+};
+
 // 反射对象基类
 class reflected_object
 {
@@ -254,6 +316,12 @@ protected:
     void register_function(const std::string &name, ReturnType (Class::*func_ptr)(Args...))
     {
         functions_[name] = std::make_unique<member_function<Class, ReturnType, Args...>>(name, func_ptr);
+    }
+
+    //overload
+    template<typename Class, typename ReturnType, typename... Args>
+    void register_function(const std::string &name, ReturnType (Class::*func_ptr)(Args...) const) {
+        functions_[name] = std::make_unique<const_member_function<Class, ReturnType, Args...>>(name, func_ptr);
     }
 
     // 批量注册成员变量
