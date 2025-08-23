@@ -1,6 +1,40 @@
 # C++ 可变参数模板反射系统
 
-基于 C++23 `std::source_location` 的现代反射系统，**使用单一可变参数模板**支持任意数量参数函数的运行时访问。
+## 核心原理
+
+- 利用 C++20/23 可变参数模板和 `std::index_sequence`，实现任意参数数量的成员函数注册与调用。
+- 属性和函数均以字符串为 key 注册到基类的 map 中，支持运行时动态访问。
+- 参数传递统一用 `std::any`，类型安全由模板和 `std::any_cast` 保证。
+- 支持 const 引用参数时，需用 `std::cref(obj)` 包装，否则类型不匹配。
+
+## 常见用法与注意事项
+
+- **const 引用参数**：如成员函数参数为 `const T&`，调用时需用 `std::cref(obj)`，如 `call_function("foo", {std::cref(obj)})`。
+- **不可拷贝类型**（如含 unique_ptr 的类）：只能用引用方式传递，不能直接传值。
+- **类型安全**��`set_property`/`call_function` 参数类型需与注册类型严格匹配，否则抛出 `std::bad_any_cast`。
+
+## 简明示例
+
+```cpp
+#include "reflect.h"
+struct Point : reflected_object {
+    int x, y;
+    Point(int a, int b) : x(a), y(b) {
+        REGISTER_MEMBERS(MEMBER(x), MEMBER(y));
+        REGISTER_FUNCTIONS(FUNCTION(inner_product), FUNCTION(inner_with_other));
+    }
+    int inner_product(int a, int b) const { return x * a + y * b; }
+    int inner_with_other(const Point& other) const { return x * other.x + y * other.y; }
+};
+
+int main() {
+    Point p(1, 2), p2(7, 8);
+    p.set_property("x", 10);
+    std::cout << std::any_cast<int>(p.get_property("x").value()) << std::endl;
+    std::cout << std::any_cast<int>(p.call_function("inner_product", {3, 4})) << std::endl;
+    std::cout << std::any_cast<int>(p.call_function("inner_with_other", {std::cref(p2)})) << std::endl;
+}
+```
 
 ## ✨ 主要特性
 
@@ -364,8 +398,6 @@ p.visit_all_members(
     }
 );
 ```
-
-## 支持的类型
 
 ## 📋 完整示例
 
