@@ -261,7 +261,7 @@ int main() {
         // 函数访问者
         [](const std::string &name, std::string_view signature,
            size_t param_count, const std::vector<std::string> &param_types) {
-            std::cout << "  ⚙️  [Function] " << name << " -> " << signature
+            std::cout << "  [Function] " << name << " -> " << signature
                       << " (params: " << param_count << ")" << std::endl;
         });
 

@@ -35,5 +35,14 @@ int main() {
     auto result2 = p.call_function("inner_with_other", {std::cref(p2)});
     std::cout << "Inner with other (ref) result: " << std::any_cast<int>(result2) << std::endl;
 
+    p.visit_all_members(
+     [](const std::string& name, const std::any& value, const std::string_view type) {
+         std::cout << "Member: " << name << ", Type: " << type << '\n';
+     },
+     [](const std::string& name, std::string_view signature, size_t param_count, const std::vector<std::string>& param_types) {
+         std::cout << "Function: " << name << ", Signature: " << signature << ", Param count: " << param_count << '\n';
+     }
+ );
+
     return 0;
 }
