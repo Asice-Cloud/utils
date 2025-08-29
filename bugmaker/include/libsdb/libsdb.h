@@ -3,6 +3,7 @@
 
 namespace sdb {
 void say_hello();
+
 }
 
 #endif // maker_hpp
