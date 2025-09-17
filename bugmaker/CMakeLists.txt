@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.25)
 
-project(bugmaker LANGUAGES CXX)
+project(bugmaker LANGUAGES C CXX)
 
 # 导入 PkgConfig 库
 find_package(PkgConfig REQUIRED)

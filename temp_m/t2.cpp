@@ -79,14 +79,15 @@ struct say_hello
     }
 };
 
+
 int main()
 {
     wrapper<int> intWrapper(42);
     std::cout << "Integer: " << intWrapper.get() << std::endl;
-
+    
     wrapper<double> doubleWrapper(3.14);
     std::cout << "Double: " << doubleWrapper.get() << std::endl;
-
+    
     std::cout << "As double: " << intWrapper.as<double>() << std::endl;
 
     using char_seq = value_sequence<char, 'a', 'b', 'c'>;
