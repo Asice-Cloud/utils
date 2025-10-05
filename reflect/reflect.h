@@ -14,6 +14,10 @@
 #include <type_traits>
 #include <cmath>
 
+
+#define Nothing_TODO_With_Member  [](const std::string &name, const std::any &value, std::string_view type){}
+#define Nothing_TODO_With_Function  [](const std::string&, std::string_view, size_t, const std::vector<std::string>&) {}
+
 // 成员变量信息结构体
 template <typename T>
 struct member_info
