@@ -2,8 +2,8 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
+#include <unistd.h>
 
 void *do_work(void *arg) {
     int i = *((int *)arg);
@@ -39,7 +39,6 @@ int main() {
     // Wait for thread2 to finish
     pthread_join(thread2, NULL);
     printf("locat_state=%d\n", locat_state);
-
 
     // Sleep for a short time to ensure the detached thread has time to execute
     sleep(1);
