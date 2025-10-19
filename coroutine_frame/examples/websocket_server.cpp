@@ -1,4 +1,3 @@
-#include <coroutine>
 #include <print>
 #include <string>
 #include <string_view>
@@ -10,6 +9,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <cstring>
 #include <memory>
 #include <array>
@@ -17,6 +17,7 @@
 #include <openssl/evp.h>
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
+#include <signal.h>
 #include "../core.h"
 
 using namespace std::chrono_literals;
@@ -106,19 +107,51 @@ std::map<std::string, std::string> parse_headers(const std::string& raw) {
 // Async read from socket
 task<int> async_read(int socket_fd, char* buffer, size_t size) {
     co_await schedule_on(get_global_executor());
-    co_await async_delay(1ms);
     
-    ssize_t bytes_read = recv(socket_fd, buffer, size, 0);
-    co_return bytes_read > 0 ? static_cast<int>(bytes_read) : 0;
+    while (true) {
+        co_await io::read_ready(socket_fd);
+        ssize_t bytes_read = recv(socket_fd, buffer, size, 0);
+        if (bytes_read > 0) {
+            co_return static_cast<int>(bytes_read);
+        }
+        if (bytes_read == 0) {
+            co_return 0; // peer closed
+        }
+        if (errno == EAGAIN || errno == EWOULDBLOCK) {
+            // Spurious readiness or drained buffer; wait again
+            continue;
+        }
+        co_return 0; // other errors treat as closed
+    }
 }
 
 // Async write to socket
 task<int> async_write(int socket_fd, const void* data, size_t size) {
     co_await schedule_on(get_global_executor());
-    co_await async_delay(1ms);
     
-    ssize_t bytes_sent = send(socket_fd, data, size, 0);
-    co_return bytes_sent > 0 ? static_cast<int>(bytes_sent) : 0;
+    const uint8_t* ptr = static_cast<const uint8_t*>(data);
+    size_t total = 0;
+    while (total < size) {
+#ifdef MSG_NOSIGNAL
+        ssize_t n = send(socket_fd, ptr + total, size - total, MSG_NOSIGNAL);
+#else
+        ssize_t n = send(socket_fd, ptr + total, size - total, 0);
+#endif
+        if (n > 0) {
+            total += static_cast<size_t>(n);
+            continue;
+        }
+        if (n == 0) {
+            // Treat as EAGAIN; wait for write-ready
+        }
+        if (errno == EAGAIN || errno == EWOULDBLOCK || n == 0) {
+            co_await io::write_ready(socket_fd);
+            continue;
+        }
+        // other errors
+        break;
+    }
+    co_return static_cast<int>(total);
 }
 
 // Helper: case-insensitive string comparison
@@ -515,6 +548,9 @@ task<void> handle_websocket_client(int client_fd) {
 
 // WebSocket server
 void run_websocket_server(int port) {
+    // Ignore SIGPIPE globally to prevent process termination on socket write errors
+    signal(SIGPIPE, SIG_IGN);
+
     int server_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (server_fd < 0) {
         std::println("Failed to create socket");
@@ -556,6 +592,11 @@ void run_websocket_server(int port) {
         int client_fd = accept(server_fd, (struct sockaddr*)&client_addr, &client_len);
         if (client_fd < 0) {
             continue;
+        }
+        // Set client socket non-blocking
+        int flags = fcntl(client_fd, F_GETFL, 0);
+        if (flags != -1) {
+            fcntl(client_fd, F_SETFL, flags | O_NONBLOCK);
         }
         
         std::println("[ACCEPT] New connection - FD: {}", client_fd);

@@ -15,7 +15,7 @@
 #include <condition_variable>
 
 // when_all: Wait for all tasks to complete and return all results
-// TRUE PARALLEL VERSION: All tasks start concurrently
+// TRUE PARALLEL VERSION: All tasks start concurrently, event-driven (no polling)
 
 namespace detail {
     // Shared state for coordinating multiple tasks
@@ -33,19 +33,23 @@ namespace detail {
         }
         
         void set_result(size_t index, T&& value) {
-            std::lock_guard lock(mutex);
-            results[index] = std::move(value);
-            completed.fetch_add(1, std::memory_order_release);
-            cv.notify_one();
+            {
+                std::lock_guard lock(mutex);
+                results[index] = std::move(value);
+                completed.fetch_add(1, std::memory_order_release);
+            }
+            cv.notify_all();
         }
         
         void set_exception(std::exception_ptr ex) {
-            std::lock_guard lock(mutex);
-            if (!exception) {
-                exception = ex;
+            {
+                std::lock_guard lock(mutex);
+                if (!exception) {
+                    exception = ex;
+                }
+                completed.fetch_add(1, std::memory_order_release);
             }
-            completed.fetch_add(1, std::memory_order_release);
-            cv.notify_one();
+            cv.notify_all();
         }
         
         bool is_done() const {
@@ -81,9 +85,13 @@ task<std::vector<T>> when_all(std::vector<task<T>>&& tasks) {
         detail::when_all_task(std::move(tasks[i]), state, i).detach();
     }
     
-    // Wait for all tasks to complete
+    // Wait for all tasks to complete (event-driven)
     while (!state->is_done()) {
-        co_await async_delay(std::chrono::milliseconds(1));
+        std::unique_lock lock(state->mutex);
+        if (!state->is_done()) {
+            // Wait until notified (spurious wakeups possible)
+            state->cv.wait(lock);
+        }
     }
     
     // Check for exceptions
@@ -106,7 +114,8 @@ inline task<void> when_all_void(std::vector<task<void>>&& tasks) {
     size_t total = tasks.size();
     std::exception_ptr exception;
     std::mutex mutex;
-    
+    std::condition_variable cv;
+
     auto wrapper = [&](task<void> t) -> task<void> {
         try {
             co_await std::move(t);
@@ -117,22 +126,26 @@ inline task<void> when_all_void(std::vector<task<void>>&& tasks) {
             }
         }
         completed.fetch_add(1, std::memory_order_release);
+        cv.notify_all();
     };
-    
+
     // Launch all tasks
     for (auto& t : tasks) {
         wrapper(std::move(t)).detach();
     }
-    
-    // Wait for completion
+
+    // Wait for completion (event-driven)
     while (completed.load(std::memory_order_acquire) < total) {
-        co_await async_delay(std::chrono::milliseconds(1));
+        std::unique_lock lock(mutex);
+        if (completed.load(std::memory_order_acquire) < total) {
+            cv.wait(lock);
+        }
     }
-    
+
     if (exception) {
         std::rethrow_exception(exception);
     }
-    
+
     co_return;
 }
 

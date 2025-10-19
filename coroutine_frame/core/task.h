@@ -8,13 +8,11 @@
 #include <variant>
 #include <exception>
 #include <utility>
-#include <type_traits>
 
 // Generic coroutine task class supporting any return type T
 // Specialization for void is provided below
 template<typename T = int>
-class task {
-public:
+struct task {
     struct awaiter;
 
     struct promise_type {

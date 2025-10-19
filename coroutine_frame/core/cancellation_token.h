@@ -8,7 +8,6 @@
 #include "task.h"
 #include <atomic>
 #include <memory>
-#include <stdexcept>
 
 // Exception thrown when a task is cancelled
 class task_cancelled : public std::exception {

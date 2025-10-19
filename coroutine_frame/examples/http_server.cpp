@@ -85,25 +85,48 @@ HttpRequest parse_request(const std::string& raw) {
 }
 
 // Async read from socket
+// True async read from socket (event-driven)
 task<int> async_read(int socket_fd, char* buffer, size_t size) {
     co_await schedule_on(get_global_executor());
-    
-    // Simulate async I/O with delay
-    co_await async_delay(10ms);
-    
-    ssize_t bytes_read = recv(socket_fd, buffer, size, 0);
-    co_return bytes_read > 0 ? static_cast<int>(bytes_read) : 0;
+    while (true) {
+        co_await io::read_ready(socket_fd);
+        ssize_t bytes_read = recv(socket_fd, buffer, size, 0);
+        if (bytes_read > 0) {
+            co_return static_cast<int>(bytes_read);
+        }
+        if (bytes_read == 0) {
+            co_return 0; // peer closed
+        }
+        if (errno == EAGAIN || errno == EWOULDBLOCK) {
+            continue; // wait again
+        }
+        co_return 0; // treat other errors as closed
+    }
 }
 
-// Async write to socket
+// True async write to socket (event-driven)
 task<int> async_write(int socket_fd, const std::string& data) {
     co_await schedule_on(get_global_executor());
-    
-    // Simulate async I/O with delay
-    co_await async_delay(5ms);
-    
-    send(socket_fd, data.c_str(), data.size(), 0);
-    co_return static_cast<int>(data.size());
+    const char* ptr = data.c_str();
+    size_t total = 0;
+    size_t size = data.size();
+    while (total < size) {
+#ifdef MSG_NOSIGNAL
+        ssize_t n = send(socket_fd, ptr + total, size - total, MSG_NOSIGNAL);
+#else
+        ssize_t n = send(socket_fd, ptr + total, size - total, 0);
+#endif
+        if (n > 0) {
+            total += static_cast<size_t>(n);
+            continue;
+        }
+        if (n == 0 || errno == EAGAIN || errno == EWOULDBLOCK) {
+            co_await io::write_ready(socket_fd);
+            continue;
+        }
+        break; // treat other errors as closed
+    }
+    co_return static_cast<int>(total);
 }
 
 // Simulate database query

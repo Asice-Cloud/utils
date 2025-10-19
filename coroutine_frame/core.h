@@ -24,6 +24,7 @@
 // ============================================================================
 #include "core/when_all.h"          // Wait for all tasks concurrently
 #include "core/when_any.h"          // Race between tasks
+#include "core/task_group.h"        // Structured concurrency
 
 // ============================================================================
 // Cancellation & Timeout
@@ -35,6 +36,13 @@
 // Error Handling
 // ============================================================================
 #include "core/error_handling.h"    // Error handling utilities (try_task, retry, etc.)
+
+// ============================================================================
+// I/O (Linux epoll backend)
+// =========================================================================
+#if defined(__linux__)
+#include "core/io_epoll.h"           // read_ready, write_ready, async_sleep
+#endif
 
 // ============================================================================
 // Commonly used namespaces and types

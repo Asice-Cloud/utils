@@ -16,37 +16,41 @@
 template<typename T>
 task<std::pair<size_t, T>> when_any(std::vector<task<T>>&& tasks) {
     co_await schedule_on(get_global_executor());
-    
     if (tasks.empty()) {
         throw std::invalid_argument("when_any: empty task list");
     }
-    
     std::atomic<bool> completed{false};
     std::mutex result_mutex;
+    std::condition_variable cv;
     std::optional<std::pair<size_t, T>> result;
-    
-    // Start all tasks
-    for (auto& t : tasks) {
-        t.resume();
-    }
-    
-    // Check tasks in order until one completes
-    // This is a simplified implementation; a production version would use proper event notification
-    while (!completed.load()) {
-        for (size_t i = 0; i < tasks.size(); ++i) {
-            if (tasks[i].done()) {
+
+    // Launch all tasks with completion notification
+    for (size_t i = 0; i < tasks.size(); ++i) {
+        auto wrapper = [i, &completed, &result, &result_mutex, &cv](task<T> t) -> task<void> {
+            try {
+                T value = co_await std::move(t);
+                std::lock_guard lock(result_mutex);
                 if (!completed.exchange(true)) {
-                    // We're the first to notice completion
-                    T value = co_await std::move(tasks[i]);
-                    co_return std::make_pair(i, std::move(value));
+                    result = std::make_pair(i, std::move(value));
+                    cv.notify_all();
                 }
+            } catch (...) {
+                // Ignore exceptions for when_any; could be extended to propagate
             }
-        }
-        // Small delay to avoid busy waiting
-        co_await async_delay(std::chrono::milliseconds(1));
+        };
+        wrapper(std::move(tasks[i])).detach();
     }
-    
-    // Should never reach here
+
+    // Wait for any task to complete (event-driven)
+    while (!completed.load()) {
+        std::unique_lock lock(result_mutex);
+        if (!completed.load()) {
+            cv.wait(lock);
+        }
+    }
+    if (result) {
+        co_return std::move(*result);
+    }
     throw std::runtime_error("when_any: unexpected state");
 }
 

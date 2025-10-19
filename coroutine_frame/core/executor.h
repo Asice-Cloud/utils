@@ -15,6 +15,7 @@
 #include <atomic>
 #include <memory>
 #include <cstdio>
+#include <algorithm>
 
 // Forward declaration
 template<typename T>
@@ -47,7 +48,14 @@ private:
 
 // Global executor instance
 inline executor& get_global_executor() {
-    static executor exec(4);  // 4 worker threads
+    // With epoll-based I/O, we don't need excessive threads since I/O waiting
+    // happens in the epoll reactor thread. Use hardware_concurrency directly,
+    // or a small multiple for CPU-bound work bursts.
+    static executor exec([]{
+        unsigned hc = std::thread::hardware_concurrency();
+        size_t threads = hc ? std::max<size_t>(4, hc) : 4;
+        return threads;
+    }());
     return exec;
 }
 
