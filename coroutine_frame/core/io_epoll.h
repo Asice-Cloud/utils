@@ -4,15 +4,12 @@
 #ifndef TASK_DO_IO_EPOLL_H
 #define TASK_DO_IO_EPOLL_H
 
-#include <coroutine>
-#include <unordered_map>
-#include <sys/epoll.h>
-#include <sys/timerfd.h>
-#include <unistd.h>
-#include <thread>
 #include <atomic>
-#include <mutex>
 #include <chrono>
+#include <coroutine>
+#include <mutex>
+#include <thread>
+#include <unordered_map>
 
 #include "executor.h"
 

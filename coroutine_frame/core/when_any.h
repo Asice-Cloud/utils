@@ -5,11 +5,12 @@
 #ifndef TASK_DO_WHEN_ANY_H
 #define TASK_DO_WHEN_ANY_H
 
+#include "executor.h"
 #include "task.h"
-#include <vector>
 #include <atomic>
-#include <optional>
 #include <mutex>
+#include <optional>
+#include <vector>
 
 // when_any: Wait for the first task to complete and return its result
 // Returns a task that yields a pair<size_t, T> where size_t is the index

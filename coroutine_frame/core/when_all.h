@@ -5,14 +5,15 @@
 #ifndef TASK_DO_WHEN_ALL_H
 #define TASK_DO_WHEN_ALL_H
 
+#include "executor.h"
 #include "task.h"
-#include <vector>
+#include <atomic>
+#include <condition_variable>
+#include <memory>
+#include <mutex>
 #include <tuple>
 #include <utility>
-#include <memory>
-#include <atomic>
-#include <mutex>
-#include <condition_variable>
+#include <vector>
 
 // when_all: Wait for all tasks to complete and return all results
 // TRUE PARALLEL VERSION: All tasks start concurrently, event-driven (no polling)

@@ -1,5 +1,8 @@
 #include "io_epoll.h"
 #include <cstring>
+#include <unistd.h>
+#include <sys/epoll.h>
+#include <sys/timerfd.h>
 
 namespace io {
 

@@ -9,13 +9,18 @@ task<int> hello_async() {
 }
 
 int main() {
+    auto fn1 = async_convert([]() {
+        std::println("hello world");
+    });
+    sync_wait(std::move(fn1));
     std::println("C++23 Coroutine Library - Quick Test\n");
     
     int result = sync_wait(hello_async());
     std::println("Result: {}\n", result);
     
     std::println("✓ Library works! See examples/ for more demos.");
-    
+
+
     get_global_executor().shutdown();
     return 0;
 }

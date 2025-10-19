@@ -8,6 +8,7 @@
 #include "task.h"
 #include <atomic>
 #include <memory>
+#include <chrono>
 
 // Exception thrown when a task is cancelled
 class task_cancelled : public std::exception {
@@ -55,7 +56,7 @@ public:
         return true;  // Don't suspend, check immediately
     }
     
-    void await_suspend(std::coroutine_handle<> h) const noexcept {
+    void await_suspend(std::coroutine_handle<> ) const noexcept {
         // Never called since await_ready returns true
     }
     
