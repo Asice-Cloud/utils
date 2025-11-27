@@ -25,8 +25,10 @@ struct json_show : public reflected_object {
         oss << "{";
         bool first = true;
         this->visit_all_members(
-            [&](const std::string& name, const std::any& value, const std::string_view type) {
-                if (!first) oss << ", ";
+            [&](const std::string &name, const std::any &value,
+                const std::string_view) {
+                if (!first)
+                    oss << ", ";
                 first = false;
                 oss << '\"' << name << "\":";
                 if (value.type() == typeid(std::string)) {
@@ -40,7 +42,8 @@ struct json_show : public reflected_object {
                 } else {
                     oss << '"' << "<unsupported type>" << '"';
                 }
-            },Nothing_TODO_With_Function);
+            },
+            Nothing_TODO_With_Function);
         oss << "}";
         std::string json_str = oss.str();
         simdjson::dom::parser parser;
