@@ -55,7 +55,6 @@ namespace normal
     }
 }
 
-
 namespace safe
 {
     void testThreadSafety() {
@@ -110,7 +109,7 @@ namespace safe
     }
 }
 
-
+//main function
 
 int main() {
     normal::normal_testHashMap();
