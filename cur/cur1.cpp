@@ -36,13 +36,13 @@ int main() {
     std::thread tt(do_work, 42);
     tt.detach();
 
-    int locat_state = 0;
-    func myf(locat_state);
+    int local_state = 0;
+    func myf(local_state);
     std::string s = "hello";
     std::thread t1(myf, 42, std::ref(s));
     std::thread t2 = std::move(t1);
     thread_g g(t2);
-    std::cout << "locat_state=" << locat_state << "\n";
+    std::cout << "local_state=" << local_state << "\n";
 
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
