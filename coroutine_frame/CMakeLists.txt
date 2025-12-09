@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 4.0)
-project(ASYNC)
+project(CoC)
 
 # Set C++23 globally
 set(CMAKE_CXX_STANDARD 23)
